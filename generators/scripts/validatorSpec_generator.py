@@ -1,9 +1,9 @@
-# validatorSpec_generator.py
-
 import sys
 import os
 
-def generate_validator_spec_code(endpoint_name):
+EXT="ValidatorSpec"
+
+def generate_code(endpoint_name):
     code = f"""import org.scalatest._
 import org.scalatestplus.play._
 
@@ -35,27 +35,3 @@ class {endpoint_name}ValidatorSpec extends PlaySpec {{
 """
 
     return code
-
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python validatorSpec_generator.py <EndpointName>")
-        sys.exit(1)
-
-    endpoint_name = sys.argv[1]
-    output_directory = "../test/controllers/requestParsers/validators"
-    file_name = f"{output_directory}/{endpoint_name}ValidatorSpec.scala"
-
-    if not os.path.exists(output_directory):
-        os.makedirs(output_directory)
-
-    if os.path.exists(file_name):
-        print(f"Error: File '{file_name}' already exists.")
-        sys.exit(1)
-
-    with open(file_name, "w") as f:
-        f.write(generate_validator_spec_code(endpoint_name))
-
-    print(f"Generated {file_name}")
-
-if __name__ == "__main__":
-    main()

@@ -1,9 +1,9 @@
-# controllerSpec_generator.py
-
 import sys
 import os
 
-def generate_controller_spec_code(endpoint_name):
+EXT="ControllerSpec"
+
+def generate_code(endpoint_name):
     code = f"""import play.api.mvc._
 import play.api.test._
 import play.api.test.Helpers._
@@ -30,27 +30,3 @@ class {endpoint_name}ControllerSpec extends PlaySpec with GuiceOneAppPerTest wit
 """
 
     return code
-
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python3 controllerSpec_generator.py <EndpointName>")
-        sys.exit(1)
-
-    endpoint_name = sys.argv[1]
-    output_directory = "../test/controllers"
-    file_name = f"{output_directory}/{endpoint_name}ControllerSpec.scala"
-
-    if not os.path.exists(output_directory):
-        os.makedirs(output_directory)
-
-    if os.path.exists(file_name):
-        print(f"Error: File '{file_name}' already exists.")
-        sys.exit(1)
-
-    with open(file_name, "w") as f:
-        f.write(generate_controller_spec_code(endpoint_name))
-
-    print(f"Generated {file_name}")
-
-if __name__ == "__main__":
-    main()
