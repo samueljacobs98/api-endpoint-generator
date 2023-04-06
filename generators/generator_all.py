@@ -32,7 +32,7 @@ def main():
         sys.exit(1)
 
     endpoint_name = sys.argv[1]
-    extension = sys.argv[2] if len(sys.argv) == 3 else ""
+    extension = "/" + sys.argv[2] if len(sys.argv) == 3 else ""
 
     script_paths = [
         "./scripts/controller_generator.py",
