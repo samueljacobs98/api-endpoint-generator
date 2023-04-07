@@ -1,7 +1,7 @@
 import sys
 import os
 
-EXT="ConnectorsPEC"
+EXT="ConnectorSpec"
 
 def generate_code(endpoint_name):
     code = f"""import scala.concurrent.ExecutionContext.Implicits.global

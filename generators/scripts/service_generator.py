@@ -1,5 +1,3 @@
-# service_generator.py
-
 import sys
 import os
 
