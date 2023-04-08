@@ -27,7 +27,7 @@ function findSubDirectory(rootPath, targetName) {
 
   function searchDirectory(currentPath) {
     if (!fs.existsSync(currentPath)) {
-      return;
+      return null;
     }
 
     const items = fs.readdirSync(currentPath, { withFileTypes: true });
@@ -45,6 +45,17 @@ function findSubDirectory(rootPath, targetName) {
   }
 
   searchDirectory(rootPath);
+  return targetPath;
+}
+
+function createSubDirectory(rootPath, targetName) {
+  const targetPath = path.join(rootPath, targetName);
+
+  if (!fs.existsSync(targetPath)) {
+    fs.mkdirSync(targetPath, { recursive: true });
+    console.log(`Created directory: ${targetPath}`);
+  }
+
   return targetPath;
 }
 
@@ -73,14 +84,14 @@ async function main() {
 
   const scriptPaths = [
     "./scripts/controller-generator.js",
-    "./scripts/request-parser-generator.js",
-    "./scripts/validator-generator.js",
-    "./scripts/connector-generator.js",
-    "./scripts/service-generator.js",
     "./scripts/controller-spec-generator.js",
+    "./scripts/request-parser-generator.js",
     "./scripts/request-parser-spec-generator.js",
+    "./scripts/validator-generator.js",
     "./scripts/validator-spec-generator.js",
+    "./scripts/connector-generator.js",
     "./scripts/connector-spec-generator.js",
+    "./scripts/service-generator.js",
     "./scripts/service-spec-generator.js",
   ];
 
@@ -108,39 +119,50 @@ async function main() {
   for (const targetName of targetNames) {
     let appOutputDirectory = findSubDirectory(appRootPath, targetName);
     let testOutputDirectory = findSubDirectory(testRootPath, targetName);
-    console.log(`
-      ${targetName},
-      ${appOutputDirectory},
-      ${testOutputDirectory}`);
 
     if (!appOutputDirectory) {
-      appOutputDirectory = path.join(
+      appOutputDirectory = createSubDirectory(
         appRootPath,
         defaultOutputDirectories.shift()
       );
     }
 
     if (!testOutputDirectory) {
-      testOutputDirectory = path.join(
+      testOutputDirectory = createSubDirectory(
         testRootPath,
         appOutputDirectory.slice(appRootPath.length)
       );
     }
 
+    console.log(`
+          ${targetName},
+          ${appOutputDirectory},
+          ${testOutputDirectory}`);
+
     outputDirectories.push(appOutputDirectory);
     outputDirectories.push(testOutputDirectory);
+
+    console.log(outputDirectories);
   }
 
   const components = scriptPaths.map((scriptPath) => importModule(scriptPath));
 
   components.forEach((component, index) => {
     const rootPath =
-      index < 5
+      index % 2 === 0
         ? `${rootLocation}/app${extension}`
         : `${rootLocation}/test${extension}`;
     const targetIndex = index % 5;
     const targetName = targetNames[targetIndex];
-    const outputDirectory = findSubDirectory(rootPath, targetName);
+
+    console.log(rootPath, targetName);
+
+    const subDirectory = findSubDirectory(rootPath, targetName);
+    const outputDirectory = subDirectory
+      ? subDirectory
+      : outputDirectories[index];
+
+    console.log(outputDirectory);
 
     if (!outputDirectory) {
       console.error(
