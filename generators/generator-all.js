@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const readline = require("readline");
 
 function generateCode(outputDirectory, endpointName, ext, code) {
   const fileName = `${outputDirectory}/${endpointName}${ext}.scala`;
@@ -21,7 +22,7 @@ function importModule(scriptPath) {
   return require(scriptPath);
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
 
   if (args.length < 1 || args.length > 2) {
@@ -31,6 +32,18 @@ function main() {
 
   const endpointName = args[0];
   const extension = args.length === 2 ? `/${args[1]}` : "";
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const rootLocation = await new Promise((resolve) =>
+    rl.question("Enter the root location of the repository: ", (answer) => {
+      rl.close();
+      resolve(answer);
+    })
+  );
 
   const scriptPaths = [
     "./scripts/controller-generator.js",
@@ -46,16 +59,16 @@ function main() {
   ];
 
   const outputDirectories = [
-    `../app${extension}/controllers`,
-    `../app${extension}/controllers/requestParsers`,
-    `../app${extension}/controllers/requestParsers/validators`,
-    `../app${extension}/connectors`,
-    `../app${extension}/services`,
-    `../test${extension}/controllers`,
-    `../test${extension}/controllers/requestParsers`,
-    `../test${extension}/controllers/requestParsers/validators`,
-    `../test${extension}/connectors`,
-    `../test${extension}/services`,
+    `${rootLocation}/app${extension}/controllers`,
+    `${rootLocation}/app${extension}/controllers/requestParsers`,
+    `${rootLocation}/app${extension}/controllers/requestParsers/validators`,
+    `${rootLocation}/app${extension}/connectors`,
+    `${rootLocation}/app${extension}/services`,
+    `${rootLocation}/test${extension}/controllers`,
+    `${rootLocation}/test${extension}/controllers/requestParsers`,
+    `${rootLocation}/test${extension}/controllers/requestParsers/validators`,
+    `${rootLocation}/test${extension}/connectors`,
+    `${rootLocation}/test${extension}/services`,
   ];
 
   const components = scriptPaths.map((scriptPath) => importModule(scriptPath));
