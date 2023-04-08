@@ -1,43 +1,16 @@
-const readline = require("readline");
-const directory = require("./directory");
-const fileHelper = require("./file-helper");
+const { generateCode } = require("./helpers/generator-helper");
+const {
+  importModule,
+  findSubDirectory,
+  createSubDirectory,
+} = require("./helpers/directory-helper");
+const {
+  scriptPaths,
+  defaultOutputDirectories,
+  targetNames,
+  getRootLocation,
+} = require("./helpers/location-helper");
 
-function generateCode(outputDirectory, endpointName, ext, code) {
-  const fileName = `${outputDirectory}/${endpointName}${ext}.scala`;
-
-  fileHelper.createDirectoryIfNotExists(outputDirectory);
-  fileHelper.checkIfFileExists(fileName);
-  fileHelper.writeFile(fileName, code);
-}
-
-const scriptPaths = [
-  "./scripts/controller-generator.js",
-  "./scripts/controller-spec-generator.js",
-  "./scripts/request-parser-generator.js",
-  "./scripts/request-parser-spec-generator.js",
-  "./scripts/validator-generator.js",
-  "./scripts/validator-spec-generator.js",
-  "./scripts/connector-generator.js",
-  "./scripts/connector-spec-generator.js",
-  "./scripts/service-generator.js",
-  "./scripts/service-spec-generator.js",
-];
-
-const defaultOutputDirectories = [
-  "controllers",
-  "controllers/requestParsers",
-  "controllers/requestParsers/validators",
-  "connectors",
-  "services",
-];
-
-const targetNames = [
-  "controllers",
-  "requestParsers",
-  "validators",
-  "connectors",
-  "services",
-];
 function parseArguments() {
   const args = process.argv.slice(2);
 
@@ -51,44 +24,22 @@ function parseArguments() {
   return { endpointName, extension };
 }
 
-async function getRootLocation() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  const rootLocation = await new Promise((resolve) =>
-    rl.question("Enter the root location of the repository: ", (answer) => {
-      rl.close();
-      resolve(answer);
-    })
-  );
-
-  return rootLocation;
-}
-
 function createOutputDirectories(targetNames, appRootPath, testRootPath) {
   const outputDirectories = [];
 
   for (const targetName of targetNames) {
-    let appOutputDirectory = directory.findSubDirectory(
-      appRootPath,
-      targetName
-    );
-    let testOutputDirectory = directory.findSubDirectory(
-      testRootPath,
-      targetName
-    );
+    let appOutputDirectory = findSubDirectory(appRootPath, targetName);
+    let testOutputDirectory = findSubDirectory(testRootPath, targetName);
 
     if (!appOutputDirectory) {
-      appOutputDirectory = directory.createSubDirectory(
+      appOutputDirectory = createSubDirectory(
         appRootPath,
         defaultOutputDirectories.shift()
       );
     }
 
     if (!testOutputDirectory) {
-      testOutputDirectory = directory.createSubDirectory(
+      testOutputDirectory = createSubDirectory(
         testRootPath,
         appOutputDirectory.slice(appRootPath.length)
       );
@@ -117,7 +68,7 @@ function generateComponentsCode(
     const targetIndex = index % 5;
     const targetName = targetNames[targetIndex];
 
-    const subDirectory = directory.findSubDirectory(rootPath, targetName);
+    const subDirectory = findSubDirectory(rootPath, targetName);
     const outputDirectory = subDirectory
       ? subDirectory
       : outputDirectories[index];
@@ -147,9 +98,7 @@ async function main() {
     testRootPath
   );
 
-  const components = scriptPaths.map((scriptPath) =>
-    directory.importModule(scriptPath)
-  );
+  const components = scriptPaths.map((scriptPath) => importModule(scriptPath));
 
   generateComponentsCode(
     components,
