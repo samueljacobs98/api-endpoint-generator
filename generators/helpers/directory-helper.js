@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { defaultOutputDirectories } = require("./location-helper");
 
 function importModule(scriptPath) {
   return require(scriptPath);
@@ -42,8 +43,36 @@ function createSubDirectory(rootPath, targetName) {
   return targetPath;
 }
 
+function createOutputDirectories(targetNames, appRootPath, testRootPath) {
+  const outputDirectories = [];
+
+  for (const targetName of targetNames) {
+    let appOutputDirectory = findSubDirectory(appRootPath, targetName);
+    let testOutputDirectory = findSubDirectory(testRootPath, targetName);
+
+    if (!appOutputDirectory) {
+      appOutputDirectory = createSubDirectory(
+        appRootPath,
+        defaultOutputDirectories.shift()
+      );
+    }
+
+    if (!testOutputDirectory) {
+      testOutputDirectory = createSubDirectory(
+        testRootPath,
+        appOutputDirectory.slice(appRootPath.length)
+      );
+    }
+
+    outputDirectories.push(appOutputDirectory);
+    outputDirectories.push(testOutputDirectory);
+  }
+
+  return outputDirectories;
+}
+
 module.exports = {
   importModule,
   findSubDirectory,
-  createSubDirectory,
+  createOutputDirectories,
 };
