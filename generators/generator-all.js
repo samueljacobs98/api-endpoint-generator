@@ -10,7 +10,35 @@ function generateCode(outputDirectory, endpointName, ext, code) {
   fileHelper.writeFile(fileName, code);
 }
 
-async function main() {
+const scriptPaths = [
+  "./scripts/controller-generator.js",
+  "./scripts/controller-spec-generator.js",
+  "./scripts/request-parser-generator.js",
+  "./scripts/request-parser-spec-generator.js",
+  "./scripts/validator-generator.js",
+  "./scripts/validator-spec-generator.js",
+  "./scripts/connector-generator.js",
+  "./scripts/connector-spec-generator.js",
+  "./scripts/service-generator.js",
+  "./scripts/service-spec-generator.js",
+];
+
+const defaultOutputDirectories = [
+  "controllers",
+  "controllers/requestParsers",
+  "controllers/requestParsers/validators",
+  "connectors",
+  "services",
+];
+
+const targetNames = [
+  "controllers",
+  "requestParsers",
+  "validators",
+  "connectors",
+  "services",
+];
+function parseArguments() {
   const args = process.argv.slice(2);
 
   if (args.length < 1 || args.length > 2) {
@@ -20,7 +48,10 @@ async function main() {
 
   const endpointName = args[0];
   const extension = args.length === 2 ? `/${args[1]}` : "";
+  return { endpointName, extension };
+}
 
+async function getRootLocation() {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -33,38 +64,10 @@ async function main() {
     })
   );
 
-  const scriptPaths = [
-    "./scripts/controller-generator.js",
-    "./scripts/controller-spec-generator.js",
-    "./scripts/request-parser-generator.js",
-    "./scripts/request-parser-spec-generator.js",
-    "./scripts/validator-generator.js",
-    "./scripts/validator-spec-generator.js",
-    "./scripts/connector-generator.js",
-    "./scripts/connector-spec-generator.js",
-    "./scripts/service-generator.js",
-    "./scripts/service-spec-generator.js",
-  ];
+  return rootLocation;
+}
 
-  const defaultOutputDirectories = [
-    "controllers",
-    "controllers/requestParsers",
-    "controllers/requestParsers/validators",
-    "connectors",
-    "services",
-  ];
-
-  const targetNames = [
-    "controllers",
-    "requestParsers",
-    "validators",
-    "connectors",
-    "services",
-  ];
-
-  const appRootPath = `${rootLocation}/app${extension}`;
-  const testRootPath = `${rootLocation}/test${extension}`;
-
+function createOutputDirectories(targetNames, appRootPath, testRootPath) {
   const outputDirectories = [];
 
   for (const targetName of targetNames) {
@@ -95,10 +98,17 @@ async function main() {
     outputDirectories.push(testOutputDirectory);
   }
 
-  const components = scriptPaths.map((scriptPath) =>
-    directory.importModule(scriptPath)
-  );
+  return outputDirectories;
+}
 
+function generateComponentsCode(
+  components,
+  targetNames,
+  rootLocation,
+  extension,
+  outputDirectories,
+  endpointName
+) {
   components.forEach((component, index) => {
     const rootPath =
       index % 2 === 0
@@ -122,6 +132,33 @@ async function main() {
     const code = component.generateCode(endpointName);
     generateCode(outputDirectory, endpointName, component.EXT, code);
   });
+}
+
+async function main() {
+  const { endpointName, extension } = parseArguments();
+  const rootLocation = await getRootLocation();
+
+  const appRootPath = `${rootLocation}/app${extension}`;
+  const testRootPath = `${rootLocation}/test${extension}`;
+
+  const outputDirectories = createOutputDirectories(
+    targetNames,
+    appRootPath,
+    testRootPath
+  );
+
+  const components = scriptPaths.map((scriptPath) =>
+    directory.importModule(scriptPath)
+  );
+
+  generateComponentsCode(
+    components,
+    targetNames,
+    rootLocation,
+    extension,
+    outputDirectories,
+    endpointName
+  );
 }
 
 main();
