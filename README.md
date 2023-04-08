@@ -1,6 +1,6 @@
 # API Endpoint Generator
 
-The **_generator_all.py_** and **_generator-all.js_** script generate a set of Scala files with boilerplate code for an endpoint in a Play Framework application. The generated files include controllers, request parsers, validators, connectors, and services, as well as their respective test files.
+The **_generator-all.js_** script generate a set of Scala files with boilerplate code for an endpoint in a Play Framework application. The generated files include controllers, request parsers, validators, connectors, and services, as well as their respective test files.
 
 ## Requirements
 
@@ -71,3 +71,4 @@ This will add /v1 to the generated folders' paths.
 
 - The script will exit with an error if any of the files to be generated already exist.
 - Make sure the provided EndpointName is in PascalCase (e.g., SampleEndpoint).
+- The user must provide the desired root location of the repository when prompted by the script.
