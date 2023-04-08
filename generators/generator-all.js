@@ -1,22 +1,13 @@
-const fs = require("fs");
-const path = require("path");
 const readline = require("readline");
 const directory = require("./directory");
+const fileHelper = require("./file-helper");
 
 function generateCode(outputDirectory, endpointName, ext, code) {
   const fileName = `${outputDirectory}/${endpointName}${ext}.scala`;
 
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
-
-  if (fs.existsSync(fileName)) {
-    console.error(`Error: File '${fileName}' already exists.`);
-    process.exit(1);
-  }
-
-  fs.writeFileSync(fileName, code);
-  console.log(`Generated ${fileName}`);
+  fileHelper.createDirectoryIfNotExists(outputDirectory);
+  fileHelper.checkIfFileExists(fileName);
+  fileHelper.writeFile(fileName, code);
 }
 
 async function main() {
