@@ -22,6 +22,32 @@ function importModule(scriptPath) {
   return require(scriptPath);
 }
 
+function findSubDirectory(rootPath, targetName) {
+  let targetPath = null;
+
+  function searchDirectory(currentPath) {
+    if (!fs.existsSync(currentPath)) {
+      return;
+    }
+
+    const items = fs.readdirSync(currentPath, { withFileTypes: true });
+
+    for (const item of items) {
+      if (item.isDirectory()) {
+        if (item.name.includes(targetName)) {
+          targetPath = path.join(currentPath, item.name);
+          break;
+        } else {
+          searchDirectory(path.join(currentPath, item.name));
+        }
+      }
+    }
+  }
+
+  searchDirectory(rootPath);
+  return targetPath;
+}
+
 async function main() {
   const args = process.argv.slice(2);
 
@@ -58,23 +84,71 @@ async function main() {
     "./scripts/service-spec-generator.js",
   ];
 
-  const outputDirectories = [
-    `${rootLocation}/app${extension}/controllers`,
-    `${rootLocation}/app${extension}/controllers/requestParsers`,
-    `${rootLocation}/app${extension}/controllers/requestParsers/validators`,
-    `${rootLocation}/app${extension}/connectors`,
-    `${rootLocation}/app${extension}/services`,
-    `${rootLocation}/test${extension}/controllers`,
-    `${rootLocation}/test${extension}/controllers/requestParsers`,
-    `${rootLocation}/test${extension}/controllers/requestParsers/validators`,
-    `${rootLocation}/test${extension}/connectors`,
-    `${rootLocation}/test${extension}/services`,
+  const defaultOutputDirectories = [
+    "controllers",
+    "controllers/requestParsers",
+    "controllers/requestParsers/validators",
+    "connectors",
+    "services",
   ];
+
+  const targetNames = [
+    "controllers",
+    "requestParsers",
+    "validators",
+    "connectors",
+    "services",
+  ];
+
+  const appRootPath = `${rootLocation}/app${extension}`;
+  const testRootPath = `${rootLocation}/test${extension}`;
+
+  const outputDirectories = [];
+
+  for (const targetName of targetNames) {
+    let appOutputDirectory = findSubDirectory(appRootPath, targetName);
+    let testOutputDirectory = findSubDirectory(testRootPath, targetName);
+    console.log(`
+      ${targetName},
+      ${appOutputDirectory},
+      ${testOutputDirectory}`);
+
+    if (!appOutputDirectory) {
+      appOutputDirectory = path.join(
+        appRootPath,
+        defaultOutputDirectories.shift()
+      );
+    }
+
+    if (!testOutputDirectory) {
+      testOutputDirectory = path.join(
+        testRootPath,
+        appOutputDirectory.slice(appRootPath.length)
+      );
+    }
+
+    outputDirectories.push(appOutputDirectory);
+    outputDirectories.push(testOutputDirectory);
+  }
 
   const components = scriptPaths.map((scriptPath) => importModule(scriptPath));
 
   components.forEach((component, index) => {
-    const outputDirectory = outputDirectories[index];
+    const rootPath =
+      index < 5
+        ? `${rootLocation}/app${extension}`
+        : `${rootLocation}/test${extension}`;
+    const targetIndex = index % 5;
+    const targetName = targetNames[targetIndex];
+    const outputDirectory = findSubDirectory(rootPath, targetName);
+
+    if (!outputDirectory) {
+      console.error(
+        `Error: Could not find the target directory for ${targetName}.`
+      );
+      process.exit(1);
+    }
+
     const code = component.generateCode(endpointName);
     generateCode(outputDirectory, endpointName, component.EXT, code);
   });
