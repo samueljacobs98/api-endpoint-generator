@@ -4,21 +4,15 @@ The **_generator_all.py_** and **_generator-all.js_** script generate a set of S
 
 ## Requirements
 
-Node.js **OR** Python
+Node.js
 
 ## How to execute the script
 
-Make sure you have Node.js or Python installed on your system.
+Make sure you have Node.js installed on your system.
 
-Navigate to the directory containing the **generator-all** and **generator_all.js** scripts.
+Navigate to the directory containing the **generator-all.js** scripts.
 
-Run the preferred script with the respective following command:
-
-### Python
-
-```
-python3 generator_all.py <EndpointName> [extension]
-```
+Run the script with the following command:
 
 ### Node.js:
 
@@ -29,13 +23,6 @@ node generator-all.js <EndpointName> [extension]
 Replace <EndpointName> with the name of the endpoint you want to generate files for. Optionally, you can provide an [extension] that will be added to the generated folders' paths.
 
 For example, to generate files for an endpoint named SampleEndpoint, run the following command:
-
-### Python
-
-```
-python generator_all.py SampleEndpoint
-
-```
 
 ### Node.js:
 
@@ -71,12 +58,6 @@ test
 ```
 
 If you want to add an [extension], for example, /v1, run:
-
-### Python
-
-```
-python generator_all.py SampleEndpoint v1
-```
 
 ### Node.js:
 
