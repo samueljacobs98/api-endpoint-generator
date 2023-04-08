@@ -9,7 +9,9 @@ const {
 } = require("./helpers/helper");
 
 async function main() {
-  const { endpointName, extension } = parseArguments();
+  const args = process.argv.slice(2);
+
+  const { endpointName, extension } = parseArguments(args);
   const rootLocation = await getRootLocation();
 
   const appRootPath = `${rootLocation}/app${extension}`;
