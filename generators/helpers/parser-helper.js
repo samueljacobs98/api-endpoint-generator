@@ -1,6 +1,4 @@
-function parseArguments() {
-  const args = process.argv.slice(2);
-
+function parseArguments(args) {
   if (args.length < 1 || args.length > 2) {
     console.log("Usage: node generate_all.js <EndpointName> [extension]");
     process.exit(1);
