@@ -13,6 +13,17 @@ function generateCode(outputDirectory, endpointName, ext, code) {
   writeFile(fileName, code);
 }
 
+function getRootPath(rootLocation, extension, index) {
+  return index % 2 === 0
+    ? `${rootLocation}/app${extension}`
+    : `${rootLocation}/test${extension}`;
+}
+
+function getOutputDirectory(rootPath, targetName, outputDirectories, index) {
+  const subDirectory = findSubDirectory(rootPath, targetName);
+  return subDirectory ? subDirectory : outputDirectories[index];
+}
+
 function generateComponentsCode(
   components,
   targetNames,
@@ -22,17 +33,15 @@ function generateComponentsCode(
   endpointName
 ) {
   components.forEach((component, index) => {
-    const rootPath =
-      index % 2 === 0
-        ? `${rootLocation}/app${extension}`
-        : `${rootLocation}/test${extension}`;
+    const rootPath = getRootPath(rootLocation, extension, index);
     const targetIndex = index % 5;
     const targetName = targetNames[targetIndex];
-
-    const subDirectory = findSubDirectory(rootPath, targetName);
-    const outputDirectory = subDirectory
-      ? subDirectory
-      : outputDirectories[index];
+    const outputDirectory = getOutputDirectory(
+      rootPath,
+      targetName,
+      outputDirectories,
+      index
+    );
 
     if (!outputDirectory) {
       console.error(
