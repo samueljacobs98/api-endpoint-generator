@@ -22,29 +22,29 @@ function importModule(scriptPath) {
   return require(scriptPath);
 }
 
-function findSubDirectory(rootPath, targetName) {
-  let targetPath = null;
+function searchDirectory(currentPath, targetName) {
+  if (!fs.existsSync(currentPath)) {
+    return null;
+  }
 
-  function searchDirectory(currentPath) {
-    if (!fs.existsSync(currentPath)) {
-      return null;
-    }
+  const items = fs.readdirSync(currentPath, { withFileTypes: true });
 
-    const items = fs.readdirSync(currentPath, { withFileTypes: true });
-
-    for (const item of items) {
-      if (item.isDirectory()) {
-        if (item.name.includes(targetName)) {
-          targetPath = path.join(currentPath, item.name);
-          break;
-        } else {
-          searchDirectory(path.join(currentPath, item.name));
-        }
+  for (const item of items) {
+    if (item.isDirectory()) {
+      if (item.name.includes(targetName)) {
+        targetPath = path.join(currentPath, item.name);
+        break;
+      } else {
+        searchDirectory(path.join(currentPath, item.name));
       }
     }
   }
+}
 
-  searchDirectory(rootPath);
+function findSubDirectory(rootPath, targetName) {
+  let targetPath = null;
+
+  searchDirectory(rootPath, targetName);
   return targetPath;
 }
 
@@ -134,15 +134,8 @@ async function main() {
       );
     }
 
-    console.log(`
-          ${targetName},
-          ${appOutputDirectory},
-          ${testOutputDirectory}`);
-
     outputDirectories.push(appOutputDirectory);
     outputDirectories.push(testOutputDirectory);
-
-    console.log(outputDirectories);
   }
 
   const components = scriptPaths.map((scriptPath) => importModule(scriptPath));
@@ -155,14 +148,10 @@ async function main() {
     const targetIndex = index % 5;
     const targetName = targetNames[targetIndex];
 
-    console.log(rootPath, targetName);
-
     const subDirectory = findSubDirectory(rootPath, targetName);
     const outputDirectory = subDirectory
       ? subDirectory
       : outputDirectories[index];
-
-    console.log(outputDirectory);
 
     if (!outputDirectory) {
       console.error(
