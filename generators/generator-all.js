@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
+const directory = require("./directory");
 
 function generateCode(outputDirectory, endpointName, ext, code) {
   const fileName = `${outputDirectory}/${endpointName}${ext}.scala`;
@@ -16,47 +17,6 @@ function generateCode(outputDirectory, endpointName, ext, code) {
 
   fs.writeFileSync(fileName, code);
   console.log(`Generated ${fileName}`);
-}
-
-function importModule(scriptPath) {
-  return require(scriptPath);
-}
-
-function searchDirectory(currentPath, targetName) {
-  if (!fs.existsSync(currentPath)) {
-    return null;
-  }
-
-  const items = fs.readdirSync(currentPath, { withFileTypes: true });
-
-  for (const item of items) {
-    if (item.isDirectory()) {
-      if (item.name.includes(targetName)) {
-        targetPath = path.join(currentPath, item.name);
-        break;
-      } else {
-        searchDirectory(path.join(currentPath, item.name));
-      }
-    }
-  }
-}
-
-function findSubDirectory(rootPath, targetName) {
-  let targetPath = null;
-
-  searchDirectory(rootPath, targetName);
-  return targetPath;
-}
-
-function createSubDirectory(rootPath, targetName) {
-  const targetPath = path.join(rootPath, targetName);
-
-  if (!fs.existsSync(targetPath)) {
-    fs.mkdirSync(targetPath, { recursive: true });
-    console.log(`Created directory: ${targetPath}`);
-  }
-
-  return targetPath;
 }
 
 async function main() {
@@ -117,18 +77,24 @@ async function main() {
   const outputDirectories = [];
 
   for (const targetName of targetNames) {
-    let appOutputDirectory = findSubDirectory(appRootPath, targetName);
-    let testOutputDirectory = findSubDirectory(testRootPath, targetName);
+    let appOutputDirectory = directory.findSubDirectory(
+      appRootPath,
+      targetName
+    );
+    let testOutputDirectory = directory.findSubDirectory(
+      testRootPath,
+      targetName
+    );
 
     if (!appOutputDirectory) {
-      appOutputDirectory = createSubDirectory(
+      appOutputDirectory = directory.createSubDirectory(
         appRootPath,
         defaultOutputDirectories.shift()
       );
     }
 
     if (!testOutputDirectory) {
-      testOutputDirectory = createSubDirectory(
+      testOutputDirectory = directory.createSubDirectory(
         testRootPath,
         appOutputDirectory.slice(appRootPath.length)
       );
@@ -138,7 +104,9 @@ async function main() {
     outputDirectories.push(testOutputDirectory);
   }
 
-  const components = scriptPaths.map((scriptPath) => importModule(scriptPath));
+  const components = scriptPaths.map((scriptPath) =>
+    directory.importModule(scriptPath)
+  );
 
   components.forEach((component, index) => {
     const rootPath =
@@ -148,7 +116,7 @@ async function main() {
     const targetIndex = index % 5;
     const targetName = targetNames[targetIndex];
 
-    const subDirectory = findSubDirectory(rootPath, targetName);
+    const subDirectory = directory.findSubDirectory(rootPath, targetName);
     const outputDirectory = subDirectory
       ? subDirectory
       : outputDirectories[index];
