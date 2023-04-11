@@ -19,14 +19,6 @@ const defaultOutputDirectories = [
   "services",
 ];
 
-const targetNames = [
-  "controllers",
-  "requestParsers",
-  "validators",
-  "connectors",
-  "services",
-];
-
 module.exports = {
   scriptPaths,
   defaultOutputDirectories,
