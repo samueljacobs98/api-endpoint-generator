@@ -1,5 +1,3 @@
-const readline = require("readline");
-
 const scriptPaths = [
   "../scripts/controller-generator.js",
   "../scripts/controller-spec-generator.js",
@@ -29,25 +27,8 @@ const targetNames = [
   "services",
 ];
 
-async function getRootLocation() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  const rootLocation = await new Promise((resolve) =>
-    rl.question("Enter the root location of the repository: ", (answer) => {
-      rl.close();
-      resolve(answer);
-    })
-  );
-
-  return rootLocation;
-}
-
 module.exports = {
   scriptPaths,
   defaultOutputDirectories,
   targetNames,
-  getRootLocation,
 };
