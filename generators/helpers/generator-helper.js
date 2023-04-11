@@ -3,7 +3,7 @@ const {
   checkIfFileExists,
   writeFile,
 } = require("./file-helper");
-const { findSubDirectory } = require("./directory-helper");
+const { searchDirectory } = require("./directory-helper");
 
 function generateCode(outputDirectory, endpointName, ext, code) {
   const fileName = `${outputDirectory}/${endpointName}${ext}.scala`;
@@ -20,7 +20,7 @@ function getRootPath(rootLocation, extension, index) {
 }
 
 function getOutputDirectory(rootPath, targetName, outputDirectories, index) {
-  const subDirectory = findSubDirectory(rootPath, targetName);
+  const subDirectory = searchDirectory(rootPath, targetName);
   return subDirectory ? subDirectory : outputDirectories[index];
 }
 

@@ -25,12 +25,12 @@ function searchDirectory(currentPath, targetName) {
   }
 }
 
-function findSubDirectory(rootPath, targetName) {
-  let targetPath = null;
+// function findSubDirectory(rootPath, targetName) {
+//   let targetPath = null;
 
-  searchDirectory(rootPath, targetName);
-  return targetPath;
-}
+//   searchDirectory(rootPath, targetName);
+//   return targetPath;
+// }
 
 function createSubDirectory(rootPath, targetName) {
   const targetPath = path.join(rootPath, targetName);
@@ -47,8 +47,8 @@ function createOutputDirectories(targetNames, appRootPath, testRootPath) {
   const outputDirectories = [];
 
   for (const targetName of targetNames) {
-    let appOutputDirectory = findSubDirectory(appRootPath, targetName);
-    let testOutputDirectory = findSubDirectory(testRootPath, targetName);
+    let appOutputDirectory = searchDirectory(appRootPath, targetName);
+    let testOutputDirectory = searchDirectory(testRootPath, targetName);
 
     if (!appOutputDirectory) {
       appOutputDirectory = createSubDirectory(
@@ -73,6 +73,6 @@ function createOutputDirectories(targetNames, appRootPath, testRootPath) {
 
 module.exports = {
   importModule,
-  findSubDirectory,
+  searchDirectory,
   createOutputDirectories,
 };
