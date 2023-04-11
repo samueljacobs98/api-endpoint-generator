@@ -1,1 +1,2 @@
-test-location/*
+node_modules/
+test-location/
