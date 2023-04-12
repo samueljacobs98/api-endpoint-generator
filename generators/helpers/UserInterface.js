@@ -1,3 +1,5 @@
+const readline = require("readline");
+
 class UserInterface {
   async getRootFromUser() {
     const rl = readline.createInterface({

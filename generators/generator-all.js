@@ -1,11 +1,11 @@
-const { parseArguments } = require("./helpers/parser-helper");
 const FileWriter = require("./helpers/FileWriter");
 const UserInterface = require("./helpers/UserInterface");
 const Parser = require("./helpers/Parser");
+const domains = require("./helpers/domains");
 
 async function main() {
   // Get the arguments passed on the command line
-  const args = process.argv.slice(3);
+  const args = process.argv.slice(2, 5);
 
   // Check that we have a valid number of arguments
   if (args.length < 1 || args.length > 3) {
@@ -21,17 +21,27 @@ async function main() {
   const userInterface = new UserInterface();
   const rootLocation = await userInterface.getRootFromUser();
 
-  const fileWriter = new FileWriter()
-    .withRootLocation(rootLocation)
-    .withRootLocationExtension("app")
-    .withSubdirectory(subdirectory)
-    .withComponentRoute("controllers/requestParsers")
-    .withEndpointName(endpointName)
-    .withComponent("RequestParser")
-    .withSpecExtension("Spec")
-    .withContent("Hello World");
+  const components = [...domains.all];
 
-  fileWriter.writeFile();
+  components.forEach((component) => {
+    const rootLocationExtension = component.getRootLocationExtension();
+    const componentRoute = component.getComponentRoute();
+    const componentType = component.getComponent();
+    const specExtension = component.getWithSpecExtension() ? "Spec" : "";
+    const content = component.getContent();
+
+    const fileWriter = new FileWriter()
+      .withRootLocation(rootLocation)
+      .withRootLocationExtension(rootLocationExtension)
+      .withSubdirectory(subdirectory)
+      .withComponentRoute(componentRoute)
+      .withEndpointName(endpointName)
+      .withComponent(componentType)
+      .withSpecExtension(specExtension)
+      .withContent(content);
+
+    fileWriter.writeFile();
+  });
 }
 
 main();

@@ -1,3 +1,5 @@
+const Component = require("./Component");
+
 class SpecComponent extends Component {
   constructor(
     componentRoute,
@@ -5,10 +7,9 @@ class SpecComponent extends Component {
     content,
     rootLocationExtension = "test"
   ) {
-    this.rootLocationExtension = rootLocationExtension;
-    this.componentRoute = componentRoute;
-    this.component = component;
-    this.content = content;
-    this.withSpecExtension = true;
+    super(componentRoute, component, content, rootLocationExtension);
+    this.setWithSpecExtension(true);
   }
 }
+
+module.exports = SpecComponent;
