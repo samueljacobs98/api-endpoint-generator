@@ -1,13 +1,11 @@
 const FileWriter = require("./helpers/FileWriter");
 const UserInterface = require("./helpers/UserInterface");
 const Parser = require("./helpers/Parser");
-const domains = require("./helpers/domains");
+const { domains, validateDomain } = require("./helpers/domains");
 
-async function main() {
-  // Get the arguments passed on the command line
+async function generate() {
   const args = process.argv.slice(2, 5);
 
-  // Check that we have a valid number of arguments
   if (args.length < 1 || args.length > 3) {
     console.log(
       "Usage: node generate_all.js <EndpointName> <Domain> [subdirectory]"
@@ -18,10 +16,12 @@ async function main() {
   const parser = new Parser();
   const { endpointName, domain, subdirectory } = parser.parseArguments(args);
 
+  validateDomain(domain);
+
   const userInterface = new UserInterface();
   const rootLocation = await userInterface.getRootFromUser();
 
-  const components = [...domains.all];
+  const components = [...domains[domain]];
 
   components.forEach((component) => {
     const rootLocationExtension = component.getRootLocationExtension();
@@ -44,4 +44,4 @@ async function main() {
   });
 }
 
-main();
+generate();

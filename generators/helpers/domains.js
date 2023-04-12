@@ -1,18 +1,30 @@
 const components = require("./components");
 
 const domains = {
-  all: [],
+  all: [
+    components.controller,
+    components.controllerSpec,
+    components.requestParser,
+    components.requestParserSpec,
+    components.validator,
+    components.validatorSpec,
+    components.connector,
+    components.connectorSpec,
+    components.serviceSpec,
+    components.service,
+  ],
+  controllerAll: [components.controller, components.controllerSpec],
+  requestParserAll: [components.requestParser, components.requestParserSpec],
+  validatorAll: [components.validator, components.validatorSpec],
+  connectorAll: [components.connector, components.connectorSpec],
+  serviceAll: [components.service, components.serviceSpec],
 };
 
-domains.all.push(components.controller);
-domains.all.push(components.controllerSpec);
-domains.all.push(components.requestParser);
-domains.all.push(components.requestParserSpec);
-domains.all.push(components.validator);
-domains.all.push(components.validatorSpec);
-domains.all.push(components.connector);
-domains.all.push(components.connectorSpec);
-domains.all.push(components.service);
-domains.all.push(components.serviceSpec);
+function validateDomain(domain) {
+  if (!domains[domain]) {
+    console.log("Invalid domain");
+    process.exit(1);
+  }
+}
 
-module.exports = domains;
+module.exports = { domains, validateDomain };
