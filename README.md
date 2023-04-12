@@ -1,36 +1,36 @@
 # API Endpoint Generator
 
-The **_generator-all.js_** script generate a set of Scala files with boilerplate code for an endpoint in a Play Framework application. The generated files include controllers, request parsers, validators, connectors, and services, as well as their respective test files.
+This is a Node.js command-line utility to generate Scala files for a given domain within a repository. It creates the specified components (e.g. controllers, services, validators, etc.) and their corresponding Spec (test) files for the given endpoint and domain.
 
 ## Requirements
 
 Node.js
 
-## How to execute the script
+## Installation
 
-Make sure you have Node.js installed on your system.
+1. Clone the repository or download the files to your local machine.
+2. Navigate to the project directory.
+3. Run `npm install` to install dependencies.
 
-Navigate to the directory containing the **generator-all.js** scripts.
+## Usage
 
-Run the script with the following command:
-
-### Node.js:
+Run the following command in your terminal:
 
 ```
-node generator-all.js <EndpointName> [extension]
+node generate.js <EndpointName> <Domain> [subdirectory]
 ```
 
-Replace <EndpointName> with the name of the endpoint you want to generate files for. Optionally, you can provide an [extension] that will be added to the generated folders' paths.
+Replace `<EndpointName>` with the name of the endpoint you want to generate files for. <Domain> with the desired domain (e.g. all, controllerAll, requestParserAll, etc.), and [subdirectory] with an optional subdirectory path for your generated files.
 
 For example, to generate files for an endpoint named SampleEndpoint, run the following command:
 
-### Node.js:
-
 ```
-node generator-all.js SampleEndpoint
+node generate.js SamepleEndpoint all
 ```
 
-This will generate the following directory structure:
+## Code Structure
+
+Generated components will be generated in the following directory structure:
 
 ```
 app
@@ -62,13 +62,44 @@ If you want to add an [extension], for example, /v1, run:
 ### Node.js:
 
 ```
-node generator-all.js SampleEndpoint v1
+node generator-all.js SampleEndpoint all v1
 ```
 
 This will add /v1 to the generated folders' paths.
 
+```
+i.e. app/v1/controllers/SampleEndpointController.scala
+```
+
+## Domains
+
+The available domains are:
+
+- `all`: Generates all components and Spec files.
+- `controllerAll`: Generates controller and controller Spec files.
+- `requestParserAll`: Generates request parser and request parser Spec files.
+- `validatorAll`: Generates validator and validator Spec files.
+- `connectorAll`: Generates connector and connector Spec files.
+- `serviceAll`: Generates service and service Spec files.
+
+## Components
+
+The generated components include:
+
+- Controller
+- Request Parser
+- Validator
+- Connector
+- Service
+- For each component, a corresponding Spec (test) file is also generated.
+
+## Customisation
+
+To add or modify components, you can update the `components.js` file. To add or modify domains, update the `domain.js` file.
+
 ### Important notes
 
+- The content of the generated files is hardcoded. You can customize the content by modifying the Component.js and SpecComponent.js files.
 - The script will exit with an error if any of the files to be generated already exist.
 - Make sure the provided EndpointName is in PascalCase (e.g., SampleEndpoint).
 - The user must provide the desired root location of the repository when prompted by the script.
