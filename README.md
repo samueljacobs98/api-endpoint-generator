@@ -6,7 +6,7 @@ This is a Node.js command-line utility to generate Scala files for a given domai
 
 Node.js
 
-## Installation
+## Installation`
 
 1. Clone the repository or download the files to your local machine.
 2. Navigate to the project directory.
@@ -17,7 +17,7 @@ Node.js
 Run the following command in your terminal:
 
 ```
-node generate.js <EndpointName> <Domain> [subdirectory]
+node generators <EndpointName> <Domain> [subdirectory]
 ```
 
 Replace `<EndpointName>` with the name of the endpoint you want to generate files for. <Domain> with the desired domain (e.g. all, controllerAll, requestParserAll, etc.), and [subdirectory] with an optional subdirectory path for your generated files.

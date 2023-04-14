@@ -3,16 +3,7 @@ const UserInterface = require("./helpers/UserInterface");
 const Parser = require("./helpers/Parser");
 const { domains, validateDomain } = require("./helpers/domains");
 
-async function generate() {
-  const args = process.argv.slice(2, 5);
-
-  if (args.length < 1 || args.length > 3) {
-    console.log(
-      "Usage: node generate_all.js <EndpointName> <Domain> [subdirectory]"
-    );
-    process.exit(1);
-  }
-
+async function generate(args) {
   const parser = new Parser();
   const { endpointName, domain, subdirectory } = parser.parseArguments(args);
 
@@ -44,4 +35,4 @@ async function generate() {
   });
 }
 
-generate();
+module.exports = { generate };
