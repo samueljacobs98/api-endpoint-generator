@@ -1,4 +1,4 @@
-const ComponentCreators = require("./ComponentCreators");
+const ComponentCreators = require("../components/ComponentCreators");
 
 const Domains = {
   all: [

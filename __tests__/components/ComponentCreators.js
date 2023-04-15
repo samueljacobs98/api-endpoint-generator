@@ -9,10 +9,10 @@ const {
   connectorSpecCreator,
   serviceCreator,
   serviceSpecCreator,
-} = require("../../generate/helpers/ComponentCreators");
+} = require("../../generate/components/ComponentCreators");
 
-const Component = require("../../generate/helpers/Component");
-const SpecComponent = require("../../generate/helpers/SpecComponent");
+const Component = require("../../generate/components/Component");
+const SpecComponent = require("../../generate/components/SpecComponent");
 
 describe("Components", () => {
   test("controller is a Component with expected values", () => {

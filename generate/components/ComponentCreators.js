@@ -19,7 +19,6 @@ const MockValidatorScaffolder = require("../scaffolds/MockValidatorScaffolder");
 const ComponentCreators = {
   controllerCreator: (endpointName) => {
     const content = ControllerScaffolder.generateCode(endpointName);
-    console.log(content);
     return new Component("controllers", "Controller", content);
   },
 
