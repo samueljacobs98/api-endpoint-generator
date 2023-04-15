@@ -8,6 +8,7 @@ describe("Domains", () => {
     expect(Domains).toHaveProperty("validatorAll");
     expect(Domains).toHaveProperty("connectorAll");
     expect(Domains).toHaveProperty("serviceAll");
+    expect(Domains).toHaveProperty("dataAll");
     expect(Domains).toHaveProperty("mocks");
   });
 

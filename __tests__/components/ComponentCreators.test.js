@@ -171,5 +171,5 @@ class EndpointNameControllerSpec
     expect(controllerSpec.getRootLocationExtension()).toBe("test");
   });
 
-  // Similar tests for requestParser, requestParserSpec, validator, validatorSpec, connector, connectorSpec, service, and serviceSpec
+  // Similar tests for requestParser, requestParserSpec, validator, validatorSpec, connector, connectorSpec, service, serviceSpec, etc.
 });
