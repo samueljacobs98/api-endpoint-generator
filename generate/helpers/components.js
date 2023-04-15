@@ -1,5 +1,6 @@
 const Component = require("./Component");
 const SpecComponent = require("./SpecComponent");
+const MockComponent = require("./MockComponent");
 const ControllerScaffolder = require("../scaffolds/ControllerScaffolder");
 const ControllerSpecScaffolder = require("../scaffolds/ControllerSpecScaffolder");
 const RequestParserScaffolder = require("../scaffolds/RequestParserScaffolder");
@@ -10,7 +11,6 @@ const ConnectorScaffolder = require("../scaffolds/ConnectorScaffolder");
 const ConnectorSpecScaffolder = require("../scaffolds/ConnectorSpecScaffolder");
 const ServiceScaffolder = require("../scaffolds/ServiceScaffolder");
 const ServiceSpecScaffolder = require("../scaffolds/ServiceSpecScaffolder");
-// ADD IN
 const MockConnectorScaffolder = require("../scaffolds/MockConnectorScaffolder");
 const MockRequestParserScaffolder = require("../scaffolds/MockRequestParserScaffolder");
 const MockServiceScaffolder = require("../scaffolds/MockServiceScaffolder");
@@ -84,6 +84,34 @@ const components = {
       "services",
       "Service",
       ServiceSpecScaffolder.generateCode(endpointName)
+    ),
+
+  mockConnectorScaffolder: (endpointName) =>
+    new MockComponent(
+      "mocks",
+      "Connector",
+      MockConnectorScaffolder.generateCode(endpointName)
+    ),
+
+  mockRequestParserScaffolder: (endpointName) =>
+    new MockComponent(
+      "mocks",
+      "RequestParser",
+      MockRequestParserScaffolder.generateCode(endpointName)
+    ),
+
+  mockServiceScaffolder: (endpointName) =>
+    new MockComponent(
+      "mocks",
+      "Service",
+      MockServiceScaffolder.generateCode(endpointName)
+    ),
+
+  mockValidatorScaffolder: (endpointName) =>
+    new MockComponent(
+      "mocks",
+      "Validator",
+      MockValidatorScaffolder.generateCode(endpointName)
     ),
 };
 

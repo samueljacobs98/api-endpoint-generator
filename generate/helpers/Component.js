@@ -4,6 +4,7 @@ class Component {
   #content;
   #rootLocationExtension;
   #withSpecExtension;
+  #withMockExtension;
 
   constructor(
     componentRoute,
@@ -16,10 +17,15 @@ class Component {
     this.#content = content;
     this.#rootLocationExtension = rootLocationExtension;
     this.#withSpecExtension = false;
+    this.#withMockExtension = false;
   }
 
   setWithSpecExtension(value) {
     this.#withSpecExtension = value;
+  }
+
+  setWithMockExtension(value) {
+    this.#withMockExtension = value;
   }
 
   getRootLocationExtension() {
@@ -40,6 +46,10 @@ class Component {
 
   getWithSpecExtension() {
     return this.#withSpecExtension;
+  }
+
+  getWithMockExtension() {
+    return this.#withMockExtension;
   }
 }
 

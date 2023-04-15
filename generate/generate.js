@@ -12,15 +12,19 @@ async function generate(args) {
   const userInterface = new UserInterface();
   const rootLocation = await userInterface.getRootFromUser();
 
-  const components = [...domains[domain]];
+  const componentCreators = [...domains[domain]];
 
-  components.forEach((createComponent) => {
+  componentCreators.forEach((createComponent) => {
     const component = createComponent(endpointName);
 
     const rootLocationExtension = component.getRootLocationExtension();
+    // if mock, add "Mock to the start of the file name
+    console.log(rootLocationExtension);
+
     const componentRoute = component.getComponentRoute();
     const componentType = component.getComponent();
     const specExtension = component.getWithSpecExtension() ? "Spec" : "";
+    const mockExtension = component.getWithMockExtension() ? "Mock" : "";
     const content = component.getContent();
 
     const fileWriter = new FileWriter()
@@ -31,6 +35,7 @@ async function generate(args) {
       .withEndpointName(endpointName)
       .withComponent(componentType)
       .withSpecExtension(specExtension)
+      .withMockExtension(mockExtension)
       .withContent(content);
 
     fileWriter.writeFile();

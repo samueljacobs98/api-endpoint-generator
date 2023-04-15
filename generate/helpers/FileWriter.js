@@ -9,6 +9,7 @@ class FileWriter {
   #endpointName = "";
   #component = "";
   #specExtension = "";
+  #mockExtension = "";
 
   withContent(content) {
     this.#content = content;
@@ -50,6 +51,11 @@ class FileWriter {
     return this;
   }
 
+  withMockExtension(mockExtension) {
+    this.#mockExtension = mockExtension;
+    return this;
+  }
+
   #getDirectory() {
     return `${this.#rootLocation}/${this.#rootLocationExtension}/${
       this.#subdirectory
@@ -57,9 +63,9 @@ class FileWriter {
   }
 
   #getFileName() {
-    const fileName = `/${this.#endpointName}${this.#component}${
-      this.#specExtension
-    }.scala`;
+    const fileName = `/${this.#mockExtension}${this.#endpointName}${
+      this.#component
+    }${this.#specExtension}.scala`;
     return fileName;
   }
 
