@@ -1,4 +1,3 @@
-// Domains.js
 const ComponentCreators = require("./ComponentCreators");
 
 const Domains = {
