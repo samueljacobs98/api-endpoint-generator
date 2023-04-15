@@ -1,6 +1,8 @@
 const ValidatorSpecScaffolder = {
   generateCode: (endpointName) => {
-    const package = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
+      p1.toLowerCase()
+    );
 
     const code = `
 package v2.controllers.requestParsers.validators
@@ -8,7 +10,7 @@ package v2.controllers.requestParsers.validators
 import api.models.errors._
 import mocks.MockAppConfig
 import support.UnitSpec
-import v2.models.request.${package}.${endpointName}RawData
+import v2.models.request.${packageName}.${endpointName}RawData
 
 class ${endpointName}ValidatorSpec extends UnitSpec with MockAppConfig {
 

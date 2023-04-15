@@ -1,6 +1,8 @@
 const RequestParserSpecScaffolder = {
   generateCode: (endpointName) => {
-    const package = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
+      p1.toLowerCase()
+    );
 
     const code = `
 package v2.controllers.requestParsers
@@ -9,7 +11,7 @@ import support.UnitSpec
 import api.models.domain.Nino
 import api.models.errors.{ ErrorWrapper, NinoFormatError }
 import v2.mocks.validators.Mock${endpointName}Validator
-import v2.models.request.${package}._
+import v2.models.request.${packageName}._
 
 class ${endpointName}RequestParserSpec extends UnitSpec {
 

@@ -1,6 +1,8 @@
 const ControllerSpecScaffolder = {
   generateCode: (endpointName) => {
-    const package = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
+      p1.toLowerCase()
+    );
 
     const code = `
 package v2.controllers
@@ -15,8 +17,8 @@ import play.api.libs.json.Json
 import play.api.mvc.Result
 import v2.mocks.requestParsers.Mock${endpointName}RequestParser
 import v2.mocks.services.Mock${endpointName}Service
-import v2.models.request.${package}._
-import v2.models.response.${package}.${endpointName}Response
+import v2.models.request.${packageName}._
+import v2.models.response.${packageName}.${endpointName}Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

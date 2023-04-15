@@ -1,6 +1,8 @@
 const ControllerScaffolder = {
   generateCode: (endpointName) => {
-    const package = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
+      p1.toLowerCase()
+    );
 
     const code = `
 package v2.controllers
@@ -9,8 +11,8 @@ import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v2.controllers.${package}.${endpointName}RequestParser
-import v2.models.request.${package}.${endpointName}RawData
+import v2.controllers.${packageName}.${endpointName}RequestParser
+import v2.models.request.${packageName}.${endpointName}RawData
 import v2.services.${endpointName}Service
 
 import javax.inject.{Inject, Singleton}
@@ -26,7 +28,7 @@ class ${endpointName}Controller @Inject() (val authService: EnrolmentsAuthServic
   extends AuthorisedController(cc) {
 
   implicit val endpointLogContext: EndpointLogContext =
-    EndpointLogContext(controllerName = "${endpointName}Controller", endpointName = "${package}")
+    EndpointLogContext(controllerName = "${endpointName}Controller", endpointName = "${packageName}")
 
   def handleRequest(nino: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>

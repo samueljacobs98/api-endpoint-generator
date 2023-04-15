@@ -1,6 +1,8 @@
 const ConnectorScaffolder = {
   generateCode: (endpointName) => {
-    const package = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
+      p1.toLowerCase()
+    );
 
     const code = `
 package v2.connectors
@@ -10,8 +12,8 @@ import api.connectors.DownstreamUri.IfsUri
 import api.connectors.httpparsers.StandardDownstreamHttpParser._
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
-import v2.models.request.${package}.${endpointName}Request
-import v2.models.response.${package}.${endpointName}Response
+import v2.models.request.${packageName}.${endpointName}Request
+import v2.models.response.${packageName}.${endpointName}Response
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
