@@ -18,9 +18,6 @@ async function generate(args) {
     const component = createComponent(endpointName);
 
     const rootLocationExtension = component.getRootLocationExtension();
-    // if mock, add "Mock to the start of the file name
-    console.log(rootLocationExtension);
-
     const componentRoute = component.getComponentRoute();
     const componentType = component.getComponent();
     const specExtension = component.getWithSpecExtension() ? "Spec" : "";
