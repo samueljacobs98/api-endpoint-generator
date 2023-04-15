@@ -1,4 +1,4 @@
-const Component = require("../../generate/helpers/Component");
+const Component = require("../../generate/components/Component");
 
 describe("Component", () => {
   let component;
@@ -18,6 +18,7 @@ describe("Component", () => {
     expect(component.getContent()).toBe("content");
     expect(component.getRootLocationExtension()).toBe("rootLocationExtension");
     expect(component.getWithSpecExtension()).toBe(false);
+    expect(component.getWithMockExtension()).toBe(false);
   });
 
   test("constructor initializes properties with default rootLocationExtension", () => {
@@ -33,6 +34,11 @@ describe("Component", () => {
   test("setWithSpecExtension updates withSpecExtension value", () => {
     component.setWithSpecExtension(true);
     expect(component.getWithSpecExtension()).toBe(true);
+  });
+
+  test("setWithMockExtension updates withMockExtension value", () => {
+    component.setWithMockExtension(true);
+    expect(component.getWithMockExtension()).toBe(true);
   });
 
   test("getRootLocationExtension returns rootLocationExtension value", () => {

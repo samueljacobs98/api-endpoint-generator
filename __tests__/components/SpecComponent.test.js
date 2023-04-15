@@ -1,5 +1,5 @@
-const SpecComponent = require("../../generate/helpers/SpecComponent");
-const Component = require("../../generate/helpers/Component");
+const SpecComponent = require("../../generate/components/SpecComponent");
+const Component = require("../../generate/components/Component");
 
 describe("SpecComponent", () => {
   let specComponent;
@@ -23,6 +23,7 @@ describe("SpecComponent", () => {
     expect(specComponent.getContent()).toBe("content");
     expect(specComponent.getRootLocationExtension()).toBe("test");
     expect(specComponent.getWithSpecExtension()).toBe(true);
+    expect(specComponent.getWithMockExtension()).toBe(false);
   });
 
   test("SpecComponent with default rootLocationExtension", () => {
