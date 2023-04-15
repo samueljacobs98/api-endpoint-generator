@@ -14,7 +14,9 @@ async function generate(args) {
 
   const components = [...domains[domain]];
 
-  components.forEach((component) => {
+  components.forEach((createComponent) => {
+    const component = createComponent(endpointName);
+
     const rootLocationExtension = component.getRootLocationExtension();
     const componentRoute = component.getComponentRoute();
     const componentType = component.getComponent();
@@ -35,4 +37,4 @@ async function generate(args) {
   });
 }
 
-module.exports = { generate };
+module.exports = generate;

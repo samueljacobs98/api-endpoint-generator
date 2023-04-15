@@ -1,4 +1,4 @@
-const Component = require("../../generators/helpers/Component");
+const Component = require("../../generate/helpers/Component");
 
 describe("Component", () => {
   let component;

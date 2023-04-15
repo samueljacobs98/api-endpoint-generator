@@ -1,5 +1,5 @@
 const readline = require("readline");
-const UserInterface = require("../../generators/helpers/UserInterface");
+const UserInterface = require("../../generate/helpers/UserInterface");
 
 jest.mock("readline");
 

@@ -1,5 +1,5 @@
 const fs = require("fs");
-const FileWriter = require("../../generators/helpers/FileWriter");
+const FileWriter = require("../../generate/helpers/FileWriter");
 
 jest.mock("fs");
 

@@ -1,5 +1,5 @@
-const SpecComponent = require("../../generators/helpers/SpecComponent");
-const Component = require("../../generators/helpers/Component");
+const SpecComponent = require("../../generate/helpers/SpecComponent");
+const Component = require("../../generate/helpers/Component");
 
 describe("SpecComponent", () => {
   let specComponent;

@@ -1,4 +1,4 @@
-const { generate } = require("./generate");
+const generate = require("./generate");
 
 const args = process.argv.slice(2, 5);
 

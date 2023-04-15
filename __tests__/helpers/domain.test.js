@@ -1,4 +1,4 @@
-const { domains, validateDomain } = require("../../generators/helpers/domains");
+const { domains, validateDomain } = require("../../generate/helpers/domains");
 const {
   controller,
   controllerSpec,
@@ -10,7 +10,7 @@ const {
   connectorSpec,
   service,
   serviceSpec,
-} = require("../../generators/helpers/components");
+} = require("../../generate/helpers/components");
 
 describe("Domains", () => {
   test("all domain contains all components", () => {
