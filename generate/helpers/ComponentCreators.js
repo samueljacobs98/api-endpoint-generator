@@ -16,77 +16,77 @@ const MockRequestParserScaffolder = require("../scaffolds/MockRequestParserScaff
 const MockServiceScaffolder = require("../scaffolds/MockServiceScaffolder");
 const MockValidatorScaffolder = require("../scaffolds/MockValidatorScaffolder");
 
-const components = {
-  controller: (endpointName) => {
+const ComponentCreators = {
+  controllerCreator: (endpointName) => {
     const content = ControllerScaffolder.generateCode(endpointName);
     console.log(content);
     return new Component("controllers", "Controller", content);
   },
 
-  controllerSpec: (endpointName) =>
+  controllerSpecCreator: (endpointName) =>
     new SpecComponent(
       "controllers",
       "Controller",
       ControllerSpecScaffolder.generateCode(endpointName)
     ),
 
-  requestParser: (endpointName) =>
+  requestParserCreator: (endpointName) =>
     new Component(
       "controllers/requestParsers",
       "RequestParser",
       RequestParserScaffolder.generateCode(endpointName)
     ),
 
-  requestParserSpec: (endpointName) =>
+  requestParserSpecCreator: (endpointName) =>
     new SpecComponent(
       "controllers/requestParsers",
       "RequestParser",
       RequestParserSpecScaffolder.generateCode(endpointName)
     ),
 
-  validator: (endpointName) =>
+  validatorCreator: (endpointName) =>
     new Component(
       "controllers/requestParsers/validators",
       "Validator",
       ValidatorScaffolder.generateCode(endpointName)
     ),
 
-  validatorSpec: (endpointName) =>
+  validatorSpecCreator: (endpointName) =>
     new SpecComponent(
       "controllers/requestParsers/validators",
       "Validator",
       ValidatorSpecScaffolder.generateCode(endpointName)
     ),
 
-  connector: (endpointName) =>
+  connectorCreator: (endpointName) =>
     new Component(
       "connectors",
       "Connector",
       ConnectorScaffolder.generateCode(endpointName)
     ),
 
-  connectorSpec: (endpointName) =>
+  connectorSpecCreator: (endpointName) =>
     new SpecComponent(
       "connectors",
       "Connector",
       ConnectorSpecScaffolder.generateCode(endpointName)
     ),
 
-  service: (endpointName) =>
+  serviceCreator: (endpointName) =>
     new Component(
       "services",
       "Service",
       ServiceScaffolder.generateCode(endpointName)
     ),
 
-  serviceSpec: (endpointName) =>
+  serviceSpecCreator: (endpointName) =>
     new SpecComponent(
       "services",
       "Service",
       ServiceSpecScaffolder.generateCode(endpointName)
     ),
 
-  mockConnectorScaffolder: (endpointName) =>
+  mockConnectorCreator: (endpointName) =>
     new MockComponent(
       "mocks",
       "Connector",
@@ -100,14 +100,14 @@ const components = {
       MockRequestParserScaffolder.generateCode(endpointName)
     ),
 
-  mockServiceScaffolder: (endpointName) =>
+  mockServiceCreator: (endpointName) =>
     new MockComponent(
       "mocks",
       "Service",
       MockServiceScaffolder.generateCode(endpointName)
     ),
 
-  mockValidatorScaffolder: (endpointName) =>
+  mockValidatorCreator: (endpointName) =>
     new MockComponent(
       "mocks",
       "Validator",
@@ -116,5 +116,5 @@ const components = {
 };
 
 module.exports = {
-  ...components,
+  ...ComponentCreators,
 };

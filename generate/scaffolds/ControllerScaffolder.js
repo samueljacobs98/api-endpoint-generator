@@ -45,8 +45,7 @@ class ${endpointName}Controller @Inject() (val authService: EnrolmentsAuthServic
       requestHandler.handleRequest(rawData)
     }
 
-}  
-  `;
+}`;
 
     return code;
   },
