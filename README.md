@@ -6,7 +6,7 @@ This is a Node.js command-line utility to generate Scala files for a given domai
 
 Node.js
 
-## Installation`
+## Installation
 
 1. Clone the repository or download the files to your local machine.
 2. Navigate to the project directory.
