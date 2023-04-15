@@ -12,6 +12,9 @@ const Domains = {
     ComponentCreators.connectorSpecCreator,
     ComponentCreators.serviceSpecCreator,
     ComponentCreators.serviceCreator,
+    ComponentCreators.rawDataCreator,
+    ComponentCreators.requestDataCreator,
+    ComponentCreators.responseDataCreator,
     ComponentCreators.mockConnectorCreator,
     ComponentCreators.mockRequestParserScaffolder,
     ComponentCreators.mockServiceCreator,
@@ -36,6 +39,11 @@ const Domains = {
   serviceAll: [
     ComponentCreators.serviceCreator,
     ComponentCreators.serviceSpecCreator,
+  ],
+  dataAll: [
+    ComponentCreators.rawDataCreator,
+    ComponentCreators.requestDataCreator,
+    ComponentCreators.responseDataCreator,
   ],
   mocks: [
     ComponentCreators.mockConnectorCreator,

@@ -25,7 +25,7 @@ class ${endpointName}ConnectorSpec extends ConnectorSpec {
   "connect" should {
     "return a valid response" when {
       "a valid request is supplied" in new IfsTest with Test {
-        val outcome: Right[Nothing, ResponseWrapper[${endpointName}tResponse]] =
+        val outcome: Right[Nothing, ResponseWrapper[${endpointName}Response]] =
           Right(ResponseWrapper(correlationId, response))
 
         stubHttpResponse(outcome)
@@ -56,7 +56,7 @@ class ${endpointName}ConnectorSpec extends ConnectorSpec {
       )
 
     def stubHttpResponse(outcome: DownstreamOutcome[${endpointName}Response])
-    : CallHandler[Future[DownstreamOutcome[${endpointName}tResponse]]]#Derived = {
+    : CallHandler[Future[DownstreamOutcome[${endpointName}Response]]]#Derived = {
       willGet(
         url = s"$baseUrl/$nino"
       ).returns(Future.successful(outcome))

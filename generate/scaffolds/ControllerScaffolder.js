@@ -11,7 +11,7 @@ import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v2.controllers.${packageName}.${endpointName}RequestParser
+import v2.controllers.requestParsers.${endpointName}RequestParser
 import v2.models.request.${packageName}.${endpointName}RawData
 import v2.services.${endpointName}Service
 
