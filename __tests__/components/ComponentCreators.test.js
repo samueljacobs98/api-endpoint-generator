@@ -25,7 +25,7 @@ import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v2.controllers.endpointName.EndpointNameRequestParser
+import v2.controllers.requestParsers.EndpointNameRequestParser
 import v2.models.request.endpointName.EndpointNameRawData
 import v2.services.EndpointNameService
 
