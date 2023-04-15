@@ -1,7 +1,7 @@
 const FileWriter = require("./helpers/FileWriter");
 const UserInterface = require("./helpers/UserInterface");
 const Parser = require("./helpers/Parser");
-const { domains, validateDomain } = require("./helpers/domains");
+const { Domains, validateDomain } = require("./helpers/Domains");
 
 async function generate(args) {
   const parser = new Parser();
@@ -12,13 +12,16 @@ async function generate(args) {
   const userInterface = new UserInterface();
   const rootLocation = await userInterface.getRootFromUser();
 
-  const components = [...domains[domain]];
+  const componentCreators = [...Domains[domain]];
 
-  components.forEach((component) => {
+  componentCreators.forEach((createComponent) => {
+    const component = createComponent(endpointName);
+
     const rootLocationExtension = component.getRootLocationExtension();
     const componentRoute = component.getComponentRoute();
     const componentType = component.getComponent();
     const specExtension = component.getWithSpecExtension() ? "Spec" : "";
+    const mockExtension = component.getWithMockExtension() ? "Mock" : "";
     const content = component.getContent();
 
     const fileWriter = new FileWriter()
@@ -29,10 +32,11 @@ async function generate(args) {
       .withEndpointName(endpointName)
       .withComponent(componentType)
       .withSpecExtension(specExtension)
+      .withMockExtension(mockExtension)
       .withContent(content);
 
     fileWriter.writeFile();
   });
 }
 
-module.exports = { generate };
+module.exports = generate;

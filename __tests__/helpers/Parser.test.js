@@ -1,4 +1,4 @@
-const Parser = require("../../generators/helpers/Parser");
+const Parser = require("../../generate/helpers/Parser");
 
 describe("Parser", () => {
   let parser;

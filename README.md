@@ -17,7 +17,7 @@ Node.js
 Run the following command in your terminal:
 
 ```
-node generators <EndpointName> <Domain> [subdirectory]
+node generate <EndpointName> <Domain> [subdirectory]
 ```
 
 Replace `<EndpointName>` with the name of the endpoint you want to generate files for. <Domain> with the desired domain (e.g. all, controllerAll, requestParserAll, etc.), and [subdirectory] with an optional subdirectory path for your generated files.

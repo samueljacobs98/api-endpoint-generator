@@ -1,56 +1,39 @@
-const { domains, validateDomain } = require("../../generators/helpers/domains");
-const {
-  controller,
-  controllerSpec,
-  requestParser,
-  requestParserSpec,
-  validator,
-  validatorSpec,
-  connector,
-  connectorSpec,
-  service,
-  serviceSpec,
-} = require("../../generators/helpers/components");
+const { Domains, validateDomain } = require("../../generate/helpers/Domains");
 
 describe("Domains", () => {
-  test("all domain contains all components", () => {
-    expect(domains.all).toEqual([
-      controller,
-      controllerSpec,
-      requestParser,
-      requestParserSpec,
-      validator,
-      validatorSpec,
-      connector,
-      connectorSpec,
-      serviceSpec,
-      service,
-    ]);
+  it("should have the correct domain subsets", () => {
+    expect(Domains).toHaveProperty("all");
+    expect(Domains).toHaveProperty("controllerAll");
+    expect(Domains).toHaveProperty("requestParserAll");
+    expect(Domains).toHaveProperty("validatorAll");
+    expect(Domains).toHaveProperty("connectorAll");
+    expect(Domains).toHaveProperty("serviceAll");
+    expect(Domains).toHaveProperty("mocks");
   });
 
-  test("controllerAll domain contains controller components", () => {
-    expect(domains.controllerAll).toEqual([controller, controllerSpec]);
+  it("should validate a valid domain", () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+    const processExitSpy = jest.spyOn(process, "exit").mockImplementation();
+
+    validateDomain("controllerAll");
+
+    expect(consoleSpy).not.toHaveBeenCalled();
+    expect(processExitSpy).not.toHaveBeenCalled();
+
+    consoleSpy.mockRestore();
+    processExitSpy.mockRestore();
   });
 
-  // Similar tests for requestParserAll, validatorAll, connectorAll, and serviceAll domains
-});
+  it("should not validate an invalid domain", () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+    const processExitSpy = jest.spyOn(process, "exit").mockImplementation();
 
-describe("validateDomain", () => {
-  beforeEach(() => {
-    console.log = jest.fn();
-    process.exit = jest.fn();
-  });
-
-  test("validates valid domain and does not exit process", () => {
-    validateDomain("all");
-
-    expect(console.log).not.toBeCalled();
-    expect(process.exit).not.toBeCalled();
-  });
-
-  test("does not validate invalid domain and exits process", () => {
     validateDomain("invalidDomain");
 
-    expect(process.exit).toBeCalledWith(1);
+    expect(consoleSpy).toHaveBeenCalledWith("Invalid domain");
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+
+    consoleSpy.mockRestore();
+    processExitSpy.mockRestore();
   });
 });
