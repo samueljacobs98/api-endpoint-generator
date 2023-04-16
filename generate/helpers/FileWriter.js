@@ -57,9 +57,12 @@ class FileWriter {
   }
 
   #getDirectory() {
-    return `${this.#rootLocation}/${this.#rootLocationExtension}/${
-      this.#subdirectory
-    }/${this.#componentRoute}`;
+    const subdirectory =
+      this.#subdirectory == "" ? this.#subdirectory : `/${this.#subdirectory}`;
+
+    return `${this.#rootLocation}/${
+      this.#rootLocationExtension
+    }${subdirectory}/${this.#componentRoute}`;
   }
 
   #getFileName() {
