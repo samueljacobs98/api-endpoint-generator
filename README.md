@@ -25,7 +25,7 @@ Replace `<EndpointName>` with the name of the endpoint you want to generate file
 For example, to generate all necessary files for an endpoint named SampleEndpoint, run the following command:
 
 ```
-node generate.js SamepleEndpoint all
+node generate SamepleEndpoint all
 ```
 
 ## Code Structure
