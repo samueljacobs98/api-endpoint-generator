@@ -87,7 +87,7 @@ i.e. app/v1/controllers/SampleEndpointController.scala
 
 The available domains are:
 
-- `all`: Generates all components and Spec files.
+- `all`: Generates all component, Spec and Mock files.
 - `controllerAll`: Generates controller and controller Spec files.
 - `requestParserAll`: Generates request parser and request parser Spec files.
 - `validatorAll`: Generates validator and validator Spec files.
