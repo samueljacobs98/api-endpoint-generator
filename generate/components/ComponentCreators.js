@@ -90,43 +90,46 @@ const ComponentCreators = {
 
   rawDataCreator: (endpointName) => {
     const content = RawDataScaffolder.generateCode(endpointName);
-    return new Component("models/request", "RawData", content);
+    const packageName = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    return new Component(`models/request/${packageName}`, "RawData", content);
   },
-
+  
   requestDataCreator: (endpointName) => {
     const content = RequestDataScaffolder.generateCode(endpointName);
-    return new Component("models/request", "Request", content);
+    const packageName = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    return new Component(`models/request/${packageName}`, "Request", content);
   },
-
+  
   responseDataCreator: (endpointName) => {
     const content = ResponseDataScaffolder.generateCode(endpointName);
-    return new Component("models/response", "Response", content);
+    const packageName = endpointName.replace(/^(.)/, (_, p1) => p1.toLowerCase());
+    return new Component(`models/response/${packageName}`, "Response", content);
   },
 
   mockConnectorCreator: (endpointName) =>
     new MockComponent(
-      "mocks",
+      "mocks/connectors",
       "Connector",
       MockConnectorScaffolder.generateCode(endpointName)
     ),
 
   mockRequestParserScaffolder: (endpointName) =>
     new MockComponent(
-      "mocks",
+      "mocks/requestParsers",
       "RequestParser",
       MockRequestParserScaffolder.generateCode(endpointName)
     ),
 
   mockServiceCreator: (endpointName) =>
     new MockComponent(
-      "mocks",
+      "mocks/services",
       "Service",
       MockServiceScaffolder.generateCode(endpointName)
     ),
 
   mockValidatorCreator: (endpointName) =>
     new MockComponent(
-      "mocks",
+      "mocks/validators",
       "Validator",
       MockValidatorScaffolder.generateCode(endpointName)
     ),
