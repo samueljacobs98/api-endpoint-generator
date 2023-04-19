@@ -20,115 +20,118 @@ const RequestDataScaffolder = require("../scaffolds/RequestDataScaffolder");
 const ResponseDataScaffolder = require("../scaffolds/ResponseDataScaffolder");
 
 const ComponentCreators = {
-  controllerCreator: (endpointName) => {
-    const content = ControllerScaffolder.generateCode(endpointName);
+  controllerCreator: (creatorData) => {
+    const content = ControllerScaffolder.generateCode(creatorData);
     return new Component("controllers", "Controller", content);
   },
 
-  controllerSpecCreator: (endpointName) =>
+  controllerSpecCreator: (creatorData) =>
     new SpecComponent(
       "controllers",
       "Controller",
-      ControllerSpecScaffolder.generateCode(endpointName)
+      ControllerSpecScaffolder.generateCode(creatorData)
     ),
 
-  requestParserCreator: (endpointName) =>
+  requestParserCreator: (creatorData) =>
     new Component(
       "controllers/requestParsers",
       "RequestParser",
-      RequestParserScaffolder.generateCode(endpointName)
+      RequestParserScaffolder.generateCode(creatorData)
     ),
 
-  requestParserSpecCreator: (endpointName) =>
+  requestParserSpecCreator: (creatorData) =>
     new SpecComponent(
       "controllers/requestParsers",
       "RequestParser",
-      RequestParserSpecScaffolder.generateCode(endpointName)
+      RequestParserSpecScaffolder.generateCode(creatorData)
     ),
 
-  validatorCreator: (endpointName) =>
+  validatorCreator: (creatorData) =>
     new Component(
       "controllers/requestParsers/validators",
       "Validator",
-      ValidatorScaffolder.generateCode(endpointName)
+      ValidatorScaffolder.generateCode(creatorData)
     ),
 
-  validatorSpecCreator: (endpointName) =>
+  validatorSpecCreator: (creatorData) =>
     new SpecComponent(
       "controllers/requestParsers/validators",
       "Validator",
-      ValidatorSpecScaffolder.generateCode(endpointName)
+      ValidatorSpecScaffolder.generateCode(creatorData)
     ),
 
-  connectorCreator: (endpointName) =>
+  connectorCreator: (creatorData) =>
     new Component(
       "connectors",
       "Connector",
-      ConnectorScaffolder.generateCode(endpointName)
+      ConnectorScaffolder.generateCode(creatorData)
     ),
 
-  connectorSpecCreator: (endpointName) =>
+  connectorSpecCreator: (creatorData) =>
     new SpecComponent(
       "connectors",
       "Connector",
-      ConnectorSpecScaffolder.generateCode(endpointName)
+      ConnectorSpecScaffolder.generateCode(creatorData)
     ),
 
-  serviceCreator: (endpointName) =>
+  serviceCreator: (creatorData) =>
     new Component(
       "services",
       "Service",
-      ServiceScaffolder.generateCode(endpointName)
+      ServiceScaffolder.generateCode(creatorData)
     ),
 
-  serviceSpecCreator: (endpointName) =>
+  serviceSpecCreator: (creatorData) =>
     new SpecComponent(
       "services",
       "Service",
-      ServiceSpecScaffolder.generateCode(endpointName)
+      ServiceSpecScaffolder.generateCode(creatorData)
     ),
 
-  rawDataCreator: (endpointName) => {
-    const content = RawDataScaffolder.generateCode(endpointName);
-    return new Component("models/request", "RawData", content);
+  rawDataCreator: (creatorData) => {
+    const content = RawDataScaffolder.generateCode(creatorData);
+    const { packageName } = creatorData
+    return new Component(`models/request/${packageName}`, "RawData", content);
+  },
+  
+  requestDataCreator: (creatorData) => {
+    const content = RequestDataScaffolder.generateCode(creatorData);
+    const { packageName } = creatorData
+    return new Component(`models/request/${packageName}`, "Request", content);
+  },
+  
+  responseDataCreator: (creatorData) => {
+    const content = ResponseDataScaffolder.generateCode(creatorData);
+    const { packageName } = creatorData
+    return new Component(`models/response/${packageName}`, "Response", content);
   },
 
-  requestDataCreator: (endpointName) => {
-    const content = RequestDataScaffolder.generateCode(endpointName);
-    return new Component("models/request", "Request", content);
-  },
-
-  responseDataCreator: (endpointName) => {
-    const content = ResponseDataScaffolder.generateCode(endpointName);
-    return new Component("models/response", "Response", content);
-  },
-
-  mockConnectorCreator: (endpointName) =>
+  mockConnectorCreator: (creatorData) =>
     new MockComponent(
-      "mocks",
+      "mocks/connectors",
       "Connector",
-      MockConnectorScaffolder.generateCode(endpointName)
+      MockConnectorScaffolder.generateCode(creatorData)
     ),
 
-  mockRequestParserScaffolder: (endpointName) =>
+  mockRequestParserScaffolder: (creatorData) =>
     new MockComponent(
-      "mocks",
+      "mocks/requestParsers",
       "RequestParser",
-      MockRequestParserScaffolder.generateCode(endpointName)
+      MockRequestParserScaffolder.generateCode(creatorData)
     ),
 
-  mockServiceCreator: (endpointName) =>
+  mockServiceCreator: (creatorData) =>
     new MockComponent(
-      "mocks",
+      "mocks/services",
       "Service",
-      MockServiceScaffolder.generateCode(endpointName)
+      MockServiceScaffolder.generateCode(creatorData)
     ),
 
-  mockValidatorCreator: (endpointName) =>
+  mockValidatorCreator: (creatorData) =>
     new MockComponent(
-      "mocks",
+      "mocks/validators",
       "Validator",
-      MockValidatorScaffolder.generateCode(endpointName)
+      MockValidatorScaffolder.generateCode(creatorData)
     ),
 };
 

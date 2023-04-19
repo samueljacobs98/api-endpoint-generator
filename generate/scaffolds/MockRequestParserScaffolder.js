@@ -1,17 +1,15 @@
 const MockRequestParserScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.mocks.requestParsers
+package ${subdirectory}.mocks.requestParsers
 
 import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import v2.controllers.requestParsers.${endpointName}RequestParser
-import v2.models.request.${packageName}.{${endpointName}RawData, ${endpointName}Request}
+import ${subdirectory}.controllers.requestParsers.${endpointName}RequestParser
+import ${subdirectory}.models.request.${packageName}.{${endpointName}RawData, ${endpointName}Request}
 
 trait Mock${endpointName}RequestParser extends MockFactory {
 

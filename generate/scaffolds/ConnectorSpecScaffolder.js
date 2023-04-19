@@ -1,19 +1,17 @@
 const ConnectorSpecScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.connectors
+package ${subdirectory}.connectors
 
 import api.connectors.{ConnectorSpec, DownstreamOutcome}
 import api.models.domain.Nino
 import api.models.errors.{DownstreamErrorCode, DownstreamErrors}
 import api.models.outcomes.ResponseWrapper
 import org.scalamock.handlers.CallHandler
-import v2.models.request.${packageName}.${endpointName}Request
-import v2.models.response.${packageName}.${endpointName}Response
+import ${subdirectory}.models.request.${packageName}.${endpointName}Request
+import ${subdirectory}.models.response.${packageName}.${endpointName}Response
 
 import scala.concurrent.Future
 
@@ -71,7 +69,7 @@ class ${endpointName}ConnectorSpec extends ConnectorSpec {
   }
 
 }  
-  `;
+`;
 
     return code;
   },

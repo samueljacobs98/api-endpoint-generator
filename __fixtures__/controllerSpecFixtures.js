@@ -1,9 +1,5 @@
-const ControllerSpecScaffolder = {
-  generateCode: (data) => {
-    const { endpointName, packageName, subdirectory } = data
-
-    const code = `
-package ${subdirectory}.controllers
+const controllerSpecFixture = `
+package v2.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.MockIdGenerator
@@ -13,33 +9,33 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import play.api.libs.json.Json
 import play.api.mvc.Result
-import ${subdirectory}.mocks.requestParsers.Mock${endpointName}RequestParser
-import ${subdirectory}.mocks.services.Mock${endpointName}Service
-import ${subdirectory}.models.request.${packageName}._
-import ${subdirectory}.models.response.${packageName}.${endpointName}Response
+import v2.mocks.requestParsers.MockEndpointNameRequestParser
+import v2.mocks.services.MockEndpointNameService
+import v2.models.request.endpointName._
+import v2.models.response.endpointName.EndpointNameResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ${endpointName}ControllerSpec
+class EndpointNameControllerSpec
   extends ControllerBaseSpec
     with ControllerTestRunner
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
-    with Mock${endpointName}Service
-    with Mock${endpointName}RequestParser
+    with MockEndpointNameService
+    with MockEndpointNameRequestParser
     with MockIdGenerator {
 
   private val submissionId = "submissionId"
 
-  "${endpointName}Controller" should {
+  "EndpointNameController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
-        Mock${endpointName}RequestParser
+        MockEndpointNameRequestParser
           .parse(rawData)
           .returns(Right(requestData))
 
-        Mock${endpointName}Service
+        MockEndpointNameService
           .retrieve(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, response))))
 
@@ -49,7 +45,7 @@ class ${endpointName}ControllerSpec
 
     "return an error as per spec" when {
       "the parser validation fails" in new Test {
-        Mock${endpointName}RequestParser
+        MockEndpointNameRequestParser
           .parse(rawData)
           .returns(Left(ErrorWrapper(correlationId, BadRequestError, None)))
 
@@ -58,11 +54,11 @@ class ${endpointName}ControllerSpec
 
       "service errors occur" should {
         "the service returns an error" in new Test {
-          Mock${endpointName}RequestParser
+          MockEndpointNameRequestParser
             .parse(rawData)
             .returns(Right(requestData))
 
-          Mock${endpointName}Service
+          MockEndpointNameService
             .retrieve(requestData)
             .returns(Future.successful(Left(ErrorWrapper(correlationId, NotFoundError))))
 
@@ -74,29 +70,27 @@ class ${endpointName}ControllerSpec
 
   private trait Test extends ControllerTest {
 
-    private val controller = new ${endpointName}Controller(
+    private val controller = new EndpointNameController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mock${endpointName}RequestParser,
-      service = mock${endpointName}Service,
+      parser = mockEndpointNameRequestParser,
+      service = mockEndpointNameService,
       cc = cc,
       idGenerator = mockIdGenerator
     )
 
     def callController(): Future[Result] = controller.handleRequest(nino)(fakeRequest)
 
-    val rawData: ${endpointName}RawData = ${endpointName}RawData(nino)
+    val rawData: EndpointNameRawData = EndpointNameRawData(nino)
 
-    val requestData: ${endpointName}Request = ${endpointName}Request(Nino(nino))
+    val requestData: EndpointNameRequest = EndpointNameRequest(Nino(nino))
 
-    val response: ${endpointName}Response = ${endpointName}Response(submissionId)
+    val response: EndpointNameResponse = EndpointNameResponse(submissionId)
 
   }
 
 }`;
 
-    return code;
-  },
-};
-
-module.exports = ControllerSpecScaffolder;
+module.exports = {
+    controllerSpecFixture
+}

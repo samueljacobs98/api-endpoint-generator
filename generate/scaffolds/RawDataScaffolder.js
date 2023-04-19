@@ -1,11 +1,9 @@
 const RawDataScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.models.request.${packageName}
+package ${subdirectory}.models.request.${packageName}
 
 import api.models.request.RawData
 

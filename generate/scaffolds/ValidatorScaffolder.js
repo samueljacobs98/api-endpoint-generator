@@ -1,16 +1,15 @@
 const ValidatorScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
+
 
     const code = `
-package v2.controllers.requestParsers.validators
+package ${subdirectory}.controllers.requestParsers.validators
 
 import api.controllers.requestParsers.validators.Validator
 import api.controllers.requestParsers.validators.validations.NinoValidation
 import api.models.errors.MtdError
-import v2.models.request.${packageName}.${endpointName}RawData
+import ${subdirectory}.models.request.${packageName}.${endpointName}RawData
 
 import javax.inject.{Inject, Singleton}
 
@@ -31,7 +30,7 @@ class ${endpointName}Validator @Inject()()
     run(validationSet, data).distinct
   }
 }
-  `;
+`;
 
     return code;
   },

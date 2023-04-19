@@ -1,8 +1,6 @@
 const ServiceSpecScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
 package v2.services
@@ -13,9 +11,9 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import support.UnitSpec
 import uk.gov.hmrc.http.HeaderCarrier
-import v2.mocks.connectors.Mock${endpointName}Connector
-import v2.models.request.${packageName}.${endpointName}Request
-import v2.models.response.${packageName}.${endpointName}Response
+import ${subdirectory}.mocks.connectors.Mock${endpointName}Connector
+import ${subdirectory}.models.request.${packageName}.${endpointName}Request
+import ${subdirectory}.models.response.${packageName}.${endpointName}Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -76,7 +74,7 @@ class ${endpointName}ServiceSpec extends UnitSpec {
   }
 
 }
-  `;
+`;
 
     return code;
   },

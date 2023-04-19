@@ -1,20 +1,18 @@
 const ValidatorSpecScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.controllers.requestParsers.validators
+package ${subdirectory}.controllers.requestParsers.validators
 
 import api.models.errors._
 import mocks.MockAppConfig
 import support.UnitSpec
-import v2.models.request.${packageName}.${endpointName}RawData
+import ${subdirectory}.models.request.${packageName}.${endpointName}RawData
 
 class ${endpointName}ValidatorSpec extends UnitSpec with MockAppConfig {
 
-  private val validNino       = "AA123456A"
+  private val validNino = "AA123456A"
 
   private val validator = new ${endpointName}Validator()
 
@@ -31,7 +29,7 @@ class ${endpointName}ValidatorSpec extends UnitSpec with MockAppConfig {
     }
   }
 }
-  `;
+`;
 
     return code;
   },
