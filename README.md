@@ -25,7 +25,7 @@ Replace `<EndpointName>` with the name of the endpoint you want to generate file
 For example, to generate all necessary files for an endpoint named SampleEndpoint, run the following command:
 
 ```
-node generate SamepleEndpoint all
+node generate SampleEndpoint all
 ```
 
 ## Code Structure
@@ -74,7 +74,7 @@ If you want to add an `[extension]`, for example, `/v1`, run:
 ### Node.js:
 
 ```
-node generator-all.js SampleEndpoint all v1
+node generator SampleEndpoint all v1
 ```
 
 This will add /v1 to the generated folders' paths.
