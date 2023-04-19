@@ -1,11 +1,9 @@
 const ControllerSpecScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.controllers
+package ${subdirectory}.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.MockIdGenerator
@@ -15,10 +13,10 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import play.api.libs.json.Json
 import play.api.mvc.Result
-import v2.mocks.requestParsers.Mock${endpointName}RequestParser
-import v2.mocks.services.Mock${endpointName}Service
-import v2.models.request.${packageName}._
-import v2.models.response.${packageName}.${endpointName}Response
+import ${subdirectory}.mocks.requestParsers.Mock${endpointName}RequestParser
+import ${subdirectory}.mocks.services.Mock${endpointName}Service
+import ${subdirectory}.models.request.${packageName}._
+import ${subdirectory}.models.response.${packageName}.${endpointName}Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

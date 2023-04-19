@@ -1,19 +1,17 @@
 const ControllerScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (endpointData) => {
+    const { endpointName, packageName, subdirectory } = endpointData
 
     const code = `
-package v2.controllers
+package ${subdirectory}.controllers
 
 import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v2.controllers.requestParsers.${endpointName}RequestParser
-import v2.models.request.${packageName}.${endpointName}RawData
-import v2.services.${endpointName}Service
+import ${subdirectory}.controllers.requestParsers.${endpointName}RequestParser
+import ${subdirectory}.models.request.${packageName}.${endpointName}RawData
+import ${subdirectory}.services.${endpointName}Service
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext

@@ -1,19 +1,17 @@
 const ServiceScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.services
+package ${subdirectory}.services
 
 import api.controllers.RequestContext
 import api.models.errors.NinoFormatError
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
-import v2.connectors.${endpointName}Connector
-import v2.models.request.${packageName}.${endpointName}Request
-import v2.models.response.${packageName}.${endpointName}Response
+import ${subdirectory}.connectors.${endpointName}Connector
+import ${subdirectory}.models.request.${packageName}.${endpointName}Request
+import ${subdirectory}.models.response.${packageName}.${endpointName}Response
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -34,7 +32,7 @@ class ${endpointName}Service @Inject() (connector: ${endpointName}Connector) ext
   )
   
 }
-  `;
+`;
 
     return code;
   },

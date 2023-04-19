@@ -1,17 +1,15 @@
 const MockValidatorScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.mocks.validators
+package ${subdirectory}.mocks.validators
 
 import org.scalamock.handlers.CallHandler1
 import org.scalamock.scalatest.MockFactory
-import v2.controllers.requestParsers.validators.${endpointName}Validator
 import api.models.errors.MtdError
-import v2.models.request.${packageName}.${endpointName}RawData
+import ${subdirectory}.controllers.requestParsers.validators.${endpointName}Validator
+import ${subdirectory}.models.request.${packageName}.${endpointName}RawData
 
 class Mock${endpointName}Validator extends MockFactory {
 
@@ -25,7 +23,7 @@ class Mock${endpointName}Validator extends MockFactory {
     }
   }
 }
-  `;
+`;
 
     return code;
   },

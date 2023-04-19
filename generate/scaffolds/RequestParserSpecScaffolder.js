@@ -1,21 +1,20 @@
 const RequestParserSpecScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
+
 
     const code = `
-package v2.controllers.requestParsers
+package ${subdirectory}.controllers.requestParsers
 
 import support.UnitSpec
 import api.models.domain.Nino
 import api.models.errors.{ ErrorWrapper, NinoFormatError }
-import v2.mocks.validators.Mock${endpointName}Validator
-import v2.models.request.${packageName}._
+import ${subdirectory}.mocks.validators.Mock${endpointName}Validator
+import ${subdirectory}.models.request.${packageName}._
 
 class ${endpointName}RequestParserSpec extends UnitSpec {
 
-  private val nino: String                   = "AA123456B"
+  private val nino: String           = "AA123456B"
   implicit val correlationId: String = "X-123"
 
   private val rawData: ${endpointName}RawData = ${endpointName}RawData(nino)
@@ -47,7 +46,7 @@ class ${endpointName}RequestParserSpec extends UnitSpec {
     }
   }
 }
-  `;
+`;
 
     return code;
   },

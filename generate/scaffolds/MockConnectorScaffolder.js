@@ -1,19 +1,17 @@
 const MockConnectorScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.mocks.connectors
+package ${subdirectory}.mocks.connectors
 
 import api.connectors.DownstreamOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
-import v2.connectors.${endpointName}Connector
-import v2.models.request.${packageName}.${endpointName}Request
-import v2.models.response.${packageName}.${endpointName}Response
+import ${subdirectory}.connectors.${endpointName}Connector
+import ${subdirectory}.models.request.${packageName}.${endpointName}Request
+import ${subdirectory}.models.response.${packageName}.${endpointName}Response
 
 import scala.concurrent.{ExecutionContext, Future}
 

@@ -1,19 +1,17 @@
 const MockServiceScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.mocks.services
+package ${subdirectory}.mocks.services
 
 import api.controllers.RequestContext
 import api.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import v2.models.request.${packageName}.${endpointName}Request
-import v2.models.response.${packageName}.${endpointName}Response
-import v2.services.${endpointName}Service
+import ${subdirectory}.models.request.${packageName}.${endpointName}Request
+import ${subdirectory}.models.response.${packageName}.${endpointName}Response
+import ${subdirectory}.services.${endpointName}Service
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -36,7 +34,7 @@ trait Mock${endpointName}Service extends MockFactory {
     }
   }
 }
-  `;
+`;
 
     return code;
   },

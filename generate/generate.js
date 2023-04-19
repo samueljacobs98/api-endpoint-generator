@@ -2,6 +2,7 @@ const FileWriter = require("./helpers/FileWriter");
 const UserInterface = require("./helpers/UserInterface");
 const Parser = require("./helpers/Parser");
 const { Domains, validateDomain } = require("./helpers/Domains");
+const CreatorData = require("./components/CreatorData");
 
 async function generate(args) {
   const parser = new Parser();
@@ -15,7 +16,8 @@ async function generate(args) {
   const componentCreators = [...Domains[domain]];
 
   componentCreators.forEach((createComponent) => {
-    const component = createComponent(endpointName);
+    const creatorData = new CreatorData(endpointName, subdirectory)
+    const component = createComponent(creatorData);
 
     const rootLocationExtension = component.getRootLocationExtension();
     const componentRoute = component.getComponentRoute();

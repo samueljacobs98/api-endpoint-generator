@@ -1,11 +1,9 @@
 const ResponseDataScaffolder = {
-  generateCode: (endpointName) => {
-    const packageName = endpointName.replace(/^(.)/, (_, p1) =>
-      p1.toLowerCase()
-    );
+  generateCode: (data) => {
+    const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.models.response.${packageName}
+package ${subdirectory}.models.response.${packageName}
 
 import play.api.libs.json.{Json, OFormat}
 
@@ -13,7 +11,7 @@ case class ${endpointName}Response(submissionId: String)
 
 object ${endpointName}Response {
 
-implicit val format: OFormat[${endpointName}Response] = Json.format[${endpointName}Response]
+  implicit val format: OFormat[${endpointName}Response] = Json.format[${endpointName}Response]
 
 }`;
 
