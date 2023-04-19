@@ -9,40 +9,53 @@ const {
   connectorSpecCreator,
   serviceCreator,
   serviceSpecCreator,
+  rawDataCreator,
+  requestDataCreator,
+  responseDataCreator,
+  mockConnectorCreator,
+  mockRequestParserScaffolder,
+  mockServiceCreator,
+  mockValidatorCreator,
 } = require("../../generate/components/ComponentCreators");
 const Component = require("../../generate/components/Component");
 const SpecComponent = require("../../generate/components/SpecComponent");
 const CreatorData = require("../../generate/components/CreatorData");
 const { controllerFixture } = require("../../__fixtures__/controllerFixtures");
 const { controllerSpecFixture } = require("../../__fixtures__/controllerSpecFixtures");
-const { requestParserFixture } = require("../../__fixtures__/requestParserFixture");
-const { requestParserSpecFixture } = require("../../__fixtures__/requestParserSpecFixture");
 
 describe("Components", () => {
-  test("controller is a Component with expected values", () => {
-    const data = new CreatorData("EndpointName", "v2")
-    const controller = controllerCreator(data);
+  const endpointName = "EndpointName"
+  const subdirectory = "v2"
+  const data = new CreatorData(endpointName, subdirectory)
 
-    const content = controllerFixture
+  class ComponentTestData {
+    constructor(creator, componentRoute, componentName, content, rootLocationExtension, instanceOf) {
+      this.creator = creator;
+      this.componentRoute = componentRoute;
+      this.componentName = componentName;
+      this.content = content;
+      this.rootLocationExtension = rootLocationExtension;
+      this.instanceOf = instanceOf;
+    }
+  }
 
-    expect(controller).toBeInstanceOf(Component);
-    expect(controller.getComponentRoute()).toBe("controllers");
-    expect(controller.getComponent()).toBe("Controller");
-    expect(controller.getContent()).toBe(content);
-    expect(controller.getRootLocationExtension()).toBe("app");
-  });
+  const components = [
+    new ComponentTestData(controllerCreator, "controllers", "Controller", controllerFixture, "app", Component),
+    new ComponentTestData(controllerSpecCreator, "controllers", "Controller", controllerSpecFixture, "test", SpecComponent),
+  ]
 
-  test("controllerSpec is a SpecComponent with expected values", () => {
-    const data = new CreatorData("EndpointName", "v2")
-    const controllerSpec = controllerSpecCreator(data);
+  components.forEach(testData => {
+    const { creator, componentRoute, componentName, content, rootLocationExtension } = testData
 
-    const content = controllerSpecFixture
-
-    expect(controllerSpec).toBeInstanceOf(SpecComponent);
-    expect(controllerSpec.getComponentRoute()).toBe("controllers");
-    expect(controllerSpec.getComponent()).toBe("Controller");
-    expect(controllerSpec.getContent()).toBe(content);
-    expect(controllerSpec.getRootLocationExtension()).toBe("test");
-  });
+    test(`${componentName} is a Component with expected values`, () => {
+      const component = creator(data);
+    
+      expect(component).toBeInstanceOf(Component);
+      expect(component.getComponentRoute()).toBe(componentRoute);
+      expect(component.getComponent()).toBe(componentName);
+      expect(component.getContent()).toBe(content);
+      expect(component.getRootLocationExtension()).toBe(rootLocationExtension);
+    });
+  })
 
 })
