@@ -12,12 +12,16 @@ Node.js
 2. Navigate to the project directory.
 3. Run `npm install` to install dependencies.
 
+## Set up for global usage
+1. Run `npm link` to create a global symlink for the project.
+2. Verify that the symlink was created successfully by running the following command: `npm ls -g --depth=0`. You should see your project listed in the output.
+
 ## Usage
 
 Run the following command in your terminal:
 
 ```
-node generate <EndpointName> <Domain> [subdirectory]
+generate <EndpointName> <Domain> [subdirectory]
 ```
 
 Replace `<EndpointName>` with the name of the endpoint you want to generate files for, `<Domain>` with the desired domain (e.g. all, controllerAll, requestParserAll, etc.), and `[subdirectory]` with an optional subdirectory path for your generated files.
@@ -25,7 +29,7 @@ Replace `<EndpointName>` with the name of the endpoint you want to generate file
 For example, to generate all necessary files for an endpoint named SampleEndpoint, run the following command:
 
 ```
-node generate SampleEndpoint all
+generate SampleEndpoint all
 ```
 
 ## Code Structure
