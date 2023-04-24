@@ -3,7 +3,7 @@ const ServiceSpecScaffolder = {
     const { endpointName, packageName, subdirectory } = data
 
     const code = `
-package v2.services
+package ${subdirectory}.services
 
 import api.controllers.EndpointLogContext
 import api.models.domain.Nino
