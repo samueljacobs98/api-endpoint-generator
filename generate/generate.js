@@ -11,8 +11,6 @@ async function generate(args) {
   validateDomain(domain);
   const componentCreators = [...Domains[domain]];
 
-  // const userInterface = new UserInterface();
-  // const rootLocation = await userInterface.getRootFromUser();
   const rootLocation = await UserInterface.getRootFromUser();
 
   const creatorData = new CreatorData(endpointName, subdirectory);
