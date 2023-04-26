@@ -16,27 +16,13 @@ async function generate(args) {
   const creatorData = new CreatorData(endpointName, subdirectory);
 
   componentCreators.forEach((createComponent) => {
-    const component = createComponent(creatorData);
+    const componentData = createComponent(creatorData).getComponentData(
+      rootLocation,
+      subdirectory,
+      endpointName
+    );
 
-    const rootLocationExtension = component.getRootLocationExtension();
-    const componentRoute = component.getComponentRoute();
-    const componentType = component.getComponent();
-    const specExtension = component.getWithSpecExtension() ? "Spec" : "";
-    const mockExtension = component.getWithMockExtension() ? "Mock" : "";
-    const content = component.getContent();
-
-    const fileWriter = new FileWriter()
-      .withRootLocation(rootLocation)
-      .withRootLocationExtension(rootLocationExtension)
-      .withSubdirectory(subdirectory)
-      .withComponentRoute(componentRoute)
-      .withEndpointName(endpointName)
-      .withComponent(componentType)
-      .withSpecExtension(specExtension)
-      .withMockExtension(mockExtension)
-      .withContent(content);
-
-    fileWriter.writeFile();
+    new FileWriter(componentData).writeFile();
   });
 }
 
