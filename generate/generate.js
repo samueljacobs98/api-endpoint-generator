@@ -9,14 +9,15 @@ async function generate(args) {
   const { endpointName, domain, subdirectory } = parser.parseArguments(args);
 
   validateDomain(domain);
-
-  const userInterface = new UserInterface();
-  const rootLocation = await userInterface.getRootFromUser();
-
   const componentCreators = [...Domains[domain]];
 
+  // const userInterface = new UserInterface();
+  // const rootLocation = await userInterface.getRootFromUser();
+  const rootLocation = await UserInterface.getRootFromUser();
+
+  const creatorData = new CreatorData(endpointName, subdirectory);
+
   componentCreators.forEach((createComponent) => {
-    const creatorData = new CreatorData(endpointName, subdirectory)
     const component = createComponent(creatorData);
 
     const rootLocationExtension = component.getRootLocationExtension();

@@ -1,7 +1,7 @@
 const readline = require("readline");
 
 class UserInterface {
-  async getRootFromUser() {
+  static async getRootFromUser() {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
