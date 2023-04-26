@@ -28,28 +28,18 @@ class Component {
     this.#withMockExtension = value;
   }
 
-  getRootLocationExtension() {
-    return this.#rootLocationExtension;
-  }
-
-  getComponentRoute() {
-    return this.#componentRoute;
-  }
-
-  getComponent() {
-    return this.#component;
-  }
-
-  getContent() {
-    return this.#content;
-  }
-
-  getWithSpecExtension() {
-    return this.#withSpecExtension;
-  }
-
-  getWithMockExtension() {
-    return this.#withMockExtension;
+  getComponentData(rootLocation, subdirectory, endpointName) {
+    return {
+      rootLocation,
+      subdirectory,
+      endpointName,
+      rootLocationExtension: this.#rootLocationExtension,
+      componentRoute: this.#componentRoute,
+      component: this.#component,
+      content: this.#content,
+      specExtension: this.#withSpecExtension ? "Spec" : "",
+      mockExtension: this.#withMockExtension ? "Mock" : "",
+    };
   }
 }
 

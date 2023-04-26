@@ -11,49 +11,26 @@ class FileWriter {
   #specExtension = "";
   #mockExtension = "";
 
-  withContent(content) {
-    this.#content = content;
-    return this;
-  }
-
-  withRootLocation(rootLocation) {
+  constructor({
+    rootLocation,
+    subdirectory,
+    endpointName,
+    rootLocationExtension,
+    componentRoute,
+    component,
+    content,
+    specExtension,
+    mockExtension,
+  }) {
     this.#rootLocation = rootLocation;
-    return this;
-  }
-
-  withRootLocationExtension(rootLocationExtension) {
-    this.#rootLocationExtension = rootLocationExtension;
-    return this;
-  }
-
-  withSubdirectory(subdirectory) {
     this.#subdirectory = subdirectory;
-    return this;
-  }
-
-  withComponentRoute(componentRoute) {
-    this.#componentRoute = componentRoute;
-    return this;
-  }
-
-  withEndpointName(endpointName) {
     this.#endpointName = endpointName;
-    return this;
-  }
-
-  withComponent(component) {
+    this.#rootLocationExtension = rootLocationExtension;
+    this.#componentRoute = componentRoute;
     this.#component = component;
-    return this;
-  }
-
-  withSpecExtension(specExtension) {
+    this.#content = content;
     this.#specExtension = specExtension;
-    return this;
-  }
-
-  withMockExtension(mockExtension) {
     this.#mockExtension = mockExtension;
-    return this;
   }
 
   #getDirectory() {

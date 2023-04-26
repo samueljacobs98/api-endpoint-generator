@@ -9,35 +9,20 @@ async function generate(args) {
   const { endpointName, domain, subdirectory } = parser.parseArguments(args);
 
   validateDomain(domain);
-
-  const userInterface = new UserInterface();
-  const rootLocation = await userInterface.getRootFromUser();
-
   const componentCreators = [...Domains[domain]];
 
+  const rootLocation = await UserInterface.getRootFromUser();
+
+  const creatorData = new CreatorData(endpointName, subdirectory);
+
   componentCreators.forEach((createComponent) => {
-    const creatorData = new CreatorData(endpointName, subdirectory)
-    const component = createComponent(creatorData);
+    const componentData = createComponent(creatorData).getComponentData(
+      rootLocation,
+      subdirectory,
+      endpointName
+    );
 
-    const rootLocationExtension = component.getRootLocationExtension();
-    const componentRoute = component.getComponentRoute();
-    const componentType = component.getComponent();
-    const specExtension = component.getWithSpecExtension() ? "Spec" : "";
-    const mockExtension = component.getWithMockExtension() ? "Mock" : "";
-    const content = component.getContent();
-
-    const fileWriter = new FileWriter()
-      .withRootLocation(rootLocation)
-      .withRootLocationExtension(rootLocationExtension)
-      .withSubdirectory(subdirectory)
-      .withComponentRoute(componentRoute)
-      .withEndpointName(endpointName)
-      .withComponent(componentType)
-      .withSpecExtension(specExtension)
-      .withMockExtension(mockExtension)
-      .withContent(content);
-
-    fileWriter.writeFile();
+    new FileWriter(componentData).writeFile();
   });
 }
 
